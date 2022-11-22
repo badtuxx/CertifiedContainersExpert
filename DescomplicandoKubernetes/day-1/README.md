@@ -2,13 +2,62 @@
 &nbsp;
 ## DAY-1
 &nbsp;
-## O quê preciso saber antes de começar?
+
+### Indice
+
+- [O quê preciso saber antes de começar?](#o-quê-preciso-saber-antes-de-começar?)
+- [Inicio da aula do Day-1](#inicio-da-aula-do-day-1)
+    - [Qual a distro GNU/Linux que devo usar?](#qual-a-distro-gnu/linux-que-devo-usar?)
+    - [Alguns sites que devemos visitar](#alguns-sites-que-devemos-visitar)
+    - [O Container Engine](#o-container-engine)
+    - [OCI - Open Container Initiative](#oci---open-container-initiative)
+    - [O Container Runtime](#o-container-runtime)
+    - [O que é o Kubernetes?](#o-que-é-o-kubernetes?)
+        - [Arquitetura do k8s](#arquitetura-do-k8s)
+    - [Instalando e customizando o Kubectl](#instalando-e-customizando-o-kubectl)
+        - [Instalação do Kubectl no GNU/Linux](#instalação-do-kubectl-no-gnu/linux)
+        - [Instalação do Kubectl no MacOS](#instalação-do-kubectl-no-macos)
+        - [Instalação do Kubectl no Windows](#instalação-do-kubectl-no-windows)
+        - [Customizando o kubectl](#customizando-o-kubectl)
+        - [Auto-complete do kubectl](#auto-complete-do-kubectl) 
+        - [Criando um alias para o kubectl](#criando-um-alias-para-o-kubectl)
+    - [Criando um cluster Kubernetes](#criando-um-cluster-kubernetes)
+        - [Criando o cluster em sua máquina local](#criando-o-cluster-em-sua-máquina-local)
+            - [Minikube](#minikube)
+                - [Requisitos básicos para o Minikube](#requisitos-básicos-para-o-minikube)
+                - [Instalação do Minikube no GNU/Linux](#instalação-do-minikube-no-gnu/linux)
+                - [Instalação do Minikube no MacOS](#instalação-do-minikube-no-macos)
+                - [Instalação do Minikube no Microsoft Windows](#instalação-do-minikube-no-microsoft-windows)
+                - [Iniciando, parando e excluindo o Minikube](#iniciando,-parando-e-excluindo-o-minikube)
+                - [Ver detalhes sobre o cluster](#ver-detalhes-sobre-o-cluster)
+                - [Descobrindo o endereço do Minikube](#descobrindo-o-endereço-do-minikube)
+                - [Acessando a máquina do Minikube via SSH](#acessando-a-máquina-do-minikube-via-ssh)
+                - [Dashboard do Minikube](#dashboard-do-minikube)
+                - [Logs do Minikube](#logs-do-minikube)
+                - [Remover o cluster](#remover-o-cluster)
+            - [Kind](#kind)
+                - [Instalação no GNU/Linux](#instalação-no-gnu/linux)
+                - [Instalação no MacOS](#instalação-no-macos)
+                - [Instalação no Windows](#instalação-no-windows)
+                - [Instalação no Windows via Chocolatey](#instalação-no-windows-via-chocolatey)
+                - [Criando um cluster com o Kind](#criando-um-cluster-com-o-kind)
+                - [Criando um cluster com múltiplos nós locais com o Kind](#criando-um-cluster-com-múltiplos-nós-locais-com-o-kind)
+    - [Primeiros passos no k8s](#primeiros-passos-no-k8s)
+        - [Verificando os namespaces e pods](#verificando-os-namespaces-e-pods)
+        - [Executando nosso primeiro pod no k8s](#executando-nosso-primeiro-pod-no-k8s)
+        - [Expondo o pod e criando um Service](#expondo-o-pod-e-criando-um-service)
+    - [Limpando tudo e indo para casa](#limpando-tudo-e-indo-para-casa)
+
+&nbsp;
+
+
+### O quê preciso saber antes de começar?
 
 Durante o Day-1 nós vamos entender o que é um container, vamos falar sobre a importância do container runtime e do container engine. Durante o Day-1 vamos entender o que é o Kubernetes e sua arquitetura, vamos falar sobre o control plane, workers, apiserver, scheduler, controller e muito mais!
 Será aqui que iremos criar o nosso primeiro cluster Kubernetes e realizar o deploy de um pod do Nginx. 
 O Day-1 é para que eu possa me sentir mais confortável com o Kubernetes e seus conceitos iniciais.
 &nbsp;
-## Inicio da aula do Day-1
+### Inicio da aula do Day-1
 &nbsp;
 ### Qual distro GNU/Linux devo usar?
 
@@ -77,7 +126,7 @@ Temos três tipos de *Container Runtime*:
 O Kata Containers é um exemplo de *Container Runtime* do tipo Virtualized.
 
 &nbsp;
-## O que é o Kubernetes?
+### O que é o Kubernetes?
 
 **Versão resumida:**
 
@@ -168,9 +217,9 @@ TCP|Inbound|30000-32767|NodePort|Services All
 - **Services**: É uma forma de você expor a comunicação através de um *ClusterIP*, *NodePort* ou *LoadBalancer* para distribuir as requisições entre os diversos Pods daquele Deployment. Funciona como um balanceador de carga.
 
 
-## Instalando e customizando o Kubectl
+### Instalando e customizando o Kubectl
 
-### Instalação do Kubectl no GNU/Linux
+#### Instalação do Kubectl no GNU/Linux
 
 Vamos instalar o ``kubectl`` com os seguintes comandos.
 
@@ -184,7 +233,7 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
 &nbsp;
-### Instalação do Kubectl no MacOS
+#### Instalação do Kubectl no MacOS
 
 O ``kubectl`` pode ser instalado no MacOS utilizando tanto o [Homebrew](https://brew.sh), quanto o método tradicional. Com o Homebrew já instalado, o kubectl pode ser instalado da seguinte forma.
 
@@ -214,7 +263,7 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
 &nbsp;
-### Instalação do Kubectl no Windows
+#### Instalação do Kubectl no Windows
 
 A instalação do ``kubectl`` pode ser realizada efetuando o download [neste link](https://dl.k8s.io/release/v1.24.3/bin/windows/amd64/kubectl.exe). 
 
@@ -253,7 +302,7 @@ alias k=kubectl
 complete -F __start_kubectl k
 ```
 &nbsp;
-## Criando um cluster Kubernetes
+### Criando um cluster Kubernetes
 
 ### Criando o cluster em sua máquina local
 
@@ -465,7 +514,7 @@ Para acessar a máquina virtual criada pelo Minikube, pode-se executar:
 minikube ssh
 ```
 &nbsp;
-##### Dashboard
+##### Dashboard do Minikube
 
 O Minikube vem com um *dashboard* *web* interessante para que o usuário iniciante observe como funcionam os *workloads* sobre o k8s. Para habilitá-lo, o usuário pode digitar:
 
@@ -473,7 +522,7 @@ O Minikube vem com um *dashboard* *web* interessante para que o usuário inician
 minikube dashboard
 ```
 &nbsp;
-##### Logs
+##### Logs do Minikube
 
 Os *logs* do Minikube podem ser acessados através do seguinte comando.
 
@@ -481,7 +530,7 @@ Os *logs* do Minikube podem ser acessados através do seguinte comando.
 minikube logs
 ```
 &nbsp;
-##### Remover o cluster
+##### Remover o cluster 
 
 ```
 minikube delete
@@ -535,7 +584,7 @@ curl.exe -Lo kind-windows-amd64.exe https://kind.sigs.k8s.io/dl/v0.14.0/kind-win
 Move-Item .\kind-windows-amd64.exe c:\kind.exe
 ```
 &nbsp;
-###### Instalação no Windows via [Chocolatey](https://chocolatey.org/install)
+###### Instalação no Windows via Chocolatey
 
 Execute o seguinte comando para instalar o Kind no Windows usando o Chocolatey.
 
