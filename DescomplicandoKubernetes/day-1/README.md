@@ -110,7 +110,7 @@ Agora sim já podemos falar sobre o que é o Container Runtime.
 &nbsp;
 #### O Container Runtime
 
-Para que seja possível executar os containers nos nós é necessário ter um *Container Runtime* instalado em cada um dos nós.
+Para que seja possível executar os containers nos é necessário ter um *Container Runtime* instalado em cada um dos nós.
 
 O *Container Runtime* é o responsável por executar os containers nos nós. Quando você está utilizando Docker ou Podman para executar containers em sua máquina, por exemplo, você está fazendo uso de algum *Container Runtime*, ou melhor, o seu Container Engine está fazendo uso de algum *Container Runtime*.
 
