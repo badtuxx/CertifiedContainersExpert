@@ -15,7 +15,7 @@ spec:
         memory:
         cpu: "0.5"
     requests:
-        memory: "64MB"
+        memory: "4400MB"
         cpu: "0,3"
   dnsPolicy: ClusterSecond
   restartPolicy: Always
