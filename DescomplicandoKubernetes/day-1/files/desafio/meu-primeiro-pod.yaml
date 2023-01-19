@@ -3,6 +3,7 @@ kind: pods
 metadata:
   labels:
     run: nginx-giropops
+    app: giropops-strigus
   name: nginx-giropops
 spec:
   containers:
