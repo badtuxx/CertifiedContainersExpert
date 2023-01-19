@@ -4,11 +4,11 @@ metadata:
   labels:
     run: nginx-giropops
     app: giropops-strigus
-  name: nginx-giropops
+  name: nginx_giropops
 spec:
   containers:
   - image: nginx
-    name: nginx-giropops
+    name: nginx_giropops
     ports:
     - containerPort: 80
     resources: 
