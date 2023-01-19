@@ -196,6 +196,7 @@ TCP|Inbound|10252|kube-controller-manager|Self
 
 * Toda porta marcada por * é customizável, você precisa se certificar que a porta alterada também esteja aberta.
 &nbsp;
+
 **WORKERS**
 
 Protocol|Direction|Port Range|Purpose|Used By
@@ -486,7 +487,7 @@ Para visualizar os nós do seu novo cluster Kubernetes, digite:
 kubectl get nodes
 ```
 &nbsp;
-Inicialmente, a intenção do Minikube é executar o k8s em apenas um nó, porém a partir da versão 1.10.1 e possível usar a função de multi-node.
+Inicialmente, a intenção do Minikube é executar o k8s em apenas um nó, porém a partir da versão 1.10.1 é possível usar a função de multi-node.
 
 Caso os comandos anteriores tenham sido executados sem erro, a instalação do Minikube terá sido realizada com sucesso.
 
