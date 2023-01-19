@@ -296,7 +296,7 @@ Nós também podemos utilizar o `exec` para conectar em uma container que está 
 kubectl exec giropops -c strigus -it -- sh
 ```
 
-O parametro `-it` é usado para que o comando `exec` crie um processo dentro do container com interatividade e com um terminal, fazendo com que o comando `exec` se comporte como o comando `attach` porém, com a diferença que o comando `exec` cria um processo dentro do container, no caso o processo `sh`. E por esse motivo que o comando `exec` é mais usado, pois ele cria um processo dentro do container, diferente do comando `attach` que não cria nenhum processo dentro do container.
+O parametro `-it` é usado para que o comando `exec` crie um processo dentro do container com interatividade e com um terminal, fazendo com que o comando `exec` se comporte como o comando `attach`, porém com a diferença que o comando `exec` cria um processo dentro do container, no caso o processo `sh`. E por esse motivo que o comando `exec` é mais usado, pois ele cria um processo dentro do container, diferente do comando `attach` que não cria nenhum processo dentro do container.
 
 Nesse caso, podemos até mesmo conectar no container do Nginx, pois ele vai conectar no container criando um processo que é o nosso interpretador de comandos `sh`, sendo possível executar qualquer comando dentro do container pois temos um shell para interagir com o container.
 
@@ -491,7 +491,7 @@ Então, vamos criar um Pod com um volume EmptyDir.
 
 Antes, o que é um volume EmptyDir?
 
-Um volume do tipo EmptyDir é um volume que é criado no momento em que o Pod é criado, e ele é destruído quando o Pod é destruído. Ou seja, ele é um volume temporário.
+Um volume do tipo EmptyDir é um volume que é criado no momento em que o Pod é criado, e ele é destruído quando o Pod é destruído, ou seja, ele é um volume temporário.
 
 No dia-a-dia, você não vai usar muito esse tipo de volume, mas é importante que você saiba que ele existe. Um dos casos de uso mais comuns é quando você precisa compartilhar dados entre os containers de um Pod. Imagina que você tem dois containers em um Pod e um deles possui um diretório com dados, e você quer que o outro container tenha acesso a esses dados. Nesse caso, você pode criar um volume do tipo EmptyDir e compartilhar esse volume entre os dois containers.
 
