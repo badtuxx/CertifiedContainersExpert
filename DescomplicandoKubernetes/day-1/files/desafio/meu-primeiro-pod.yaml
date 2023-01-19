@@ -1,7 +1,6 @@
-apiVersion: v1
-kind: pod
+apiVersion: v1beta1
+kind: pods
 metadata:
-  creationTimestamp: null
   labels:
     run: nginx-giropops
   name: nginx-giropops
@@ -11,7 +10,12 @@ spec:
     name: nginx-giropops
     ports:
     - containerPort: 80
-    resources: {}
-  dnsPolicy: ClusterFirst
+    resources: 
+      limits: 
+        memory:
+        cpu: "0.5"
+    requests:
+        memory: "64MB"
+        cpu: "0,3"
+  dnsPolicy: ClusterSecond
   restartPolicy: Always
-status: {}
