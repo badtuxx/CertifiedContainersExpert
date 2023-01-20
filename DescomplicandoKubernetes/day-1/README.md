@@ -181,6 +181,7 @@ Alguns exemplos são:
 * **Kubelet**: O *kubelet* pode ser visto como o alente do k8s que é executado nos nós workers. Em cada nó worker deverá existir um agente Kubelet em execução. O Kubelet é responsável por de fato gerenciar os *pods* que foram direcionados pelo *controller* do *cluster*, dentro dos nós, de forma que para isto o Kubelet pode iniciar, parar e manter os contêineres e os pods em funcionamento de acordo com o instruído pelo controlador do cluster;
 
 * **Kube-proxy**: Age como um *proxy* e um *load balancer*. Este componente é responsável por efetuar roteamento de requisições para os *pods* corretos, como também por cuidar da parte de rede do nó;
+
 &nbsp;
 ### Portas que devemos nos preocupar
 
@@ -195,9 +196,8 @@ TCP|Inbound|10251|kube-scheduler|Self
 TCP|Inbound|10252|kube-controller-manager|Self
 
 * Toda porta marcada por * é customizável, você precisa se certificar que a porta alterada também esteja aberta.
+
 &nbsp;
-
-
 **WORKERS**
 
 Protocol|Direction|Port Range|Purpose|Used By
