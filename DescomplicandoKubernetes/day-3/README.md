@@ -6,9 +6,6 @@
 &nbsp;
 ### Conteúdo do Day-3
 
-- [Por que ?](#por-que-)
-
-
 &nbsp;
 
 ### Inicio da aula do Day-2
