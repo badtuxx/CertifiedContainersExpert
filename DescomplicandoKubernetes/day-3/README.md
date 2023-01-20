@@ -128,7 +128,7 @@ template:
           cpu: "0.5"
           memory: 256Mi
         requests:
-          cpu: 0.25
+          cpu: "0.25"
           memory: 128Mi
 ```
 
@@ -306,7 +306,7 @@ spec:
             cpu: "0.5"
             memory: 256Mi
           requests:
-            cpu: 0.25
+            cpu: "0.25"
             memory: 128Mi
 ```
 
@@ -550,7 +550,7 @@ spec:
             cpu: "0.5"
             memory: 256Mi
           requests:
-            cpu: 0.25
+            cpu: "0.25"
             memory: 128Mi
 ```
 
