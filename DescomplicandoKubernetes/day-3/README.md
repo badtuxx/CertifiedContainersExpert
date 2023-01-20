@@ -8,7 +8,7 @@
 
 &nbsp;
 
-### Inicio da aula do Day-2
+### Inicio da aula do Day-3
 &nbsp;
 
 ### O que iremos ver hoje?
