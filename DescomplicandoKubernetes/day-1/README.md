@@ -197,6 +197,7 @@ TCP|Inbound|10252|kube-controller-manager|Self
 
 * Toda porta marcada por * é customizável, você precisa se certificar que a porta alterada também esteja aberta.
 
+
 &nbsp;
 **WORKERS**
 
