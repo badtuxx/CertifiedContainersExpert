@@ -818,7 +818,7 @@ O comando `kubectl rollout pause` é utilizado para pausar o Deployment, ou seja
 kubectl rollout resume deployment nginx-deployment
 ```
 
-O comando `kubectl rollout resume` é utilizado para despausar o Deployment, ou seja, ele vai despausar o Deployment e vai permitir que ele faça nenhuma atualização.
+O comando `kubectl rollout resume` é utilizado para despausar o Deployment, ou seja, ele vai despausar o Deployment e vai permitir que ele faça atualizações novamente.
 
 ```bash
 kubectl rollout restart deployment nginx-deployment
