@@ -6,12 +6,10 @@
 &nbsp;
 ### Conteúdo do Day-3
 
-- [Por que ?](#por-que-)
-
-
 &nbsp;
 
-### Inicio da aula do Day-2
+### Inicio da aula do Day-3
+
 &nbsp;
 
 ### O que iremos ver hoje?
@@ -893,4 +891,8 @@ Ainda falaremos muito sobre os Deployments e conheceremos muitas outras opções
 
 Na Day-4 nós vamos falar sobre os ReplicaSets e DaemonSets, então fiquem ligados que a Day-4 está chegando.
 
+<<<<<<< HEAD
 #VAIIII
+=======
+#VAIIII
+>>>>>>> 05c66fd1d00163596516bd6a9523c44876a4c815
