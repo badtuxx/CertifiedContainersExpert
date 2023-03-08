@@ -891,8 +891,4 @@ Ainda falaremos muito sobre os Deployments e conheceremos muitas outras opções
 
 Na Day-4 nós vamos falar sobre os ReplicaSets e DaemonSets, então fiquem ligados que a Day-4 está chegando.
 
-<<<<<<< HEAD
 #VAIIII
-=======
-#VAIIII
->>>>>>> 05c66fd1d00163596516bd6a9523c44876a4c815
