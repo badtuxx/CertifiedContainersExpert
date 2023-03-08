@@ -6,6 +6,31 @@
 &nbsp;
 ### Conteúdo do Day-3
 
+- [DAY-3](#day-3)
+  - [Inicio da aula do Day-3](#inicio-da-aula-do-day-3)
+  - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
+  - [O que é um Deployment?](#o-que-é-um-deployment)
+    - [Como criar um Deployment?](#como-criar-um-deployment)
+      - [O que cada parte do arquivo significa?](#o-que-cada-parte-do-arquivo-significa)
+    - [Como aplicar o Deployment?](#como-aplicar-o-deployment)
+    - [Como verificar os Pods que o Deployment está gerenciando?](#como-verificar-os-pods-que-o-deployment-está-gerenciando)
+    - [Como verificar o ReplicaSet que o Deployment está gerenciando?](#como-verificar-o-replicaset-que-o-deployment-está-gerenciando)
+    - [Como verificar os detalhes do Deployment?](#como-verificar-os-detalhes-do-deployment)
+    - [Como atualizar o Deployment?](#como-atualizar-o-deployment)
+    - [E qual é a estratégia de atualização padrão do Deployment?](#e-qual-é-a-estratégia-de-atualização-padrão-do-deployment)
+    - [As estratégias de atualização do Deployment](#as-estratégias-de-atualização-do-deployment)
+      - [Estratégia RollingUpdate](#estratégia-rollingupdate)
+      - [Estratégia Recreate](#estratégia-recreate)
+      - [Fazendo o rollback de uma atualização](#fazendo-o-rollback-de-uma-atualização)
+    - [Removendo um Deployment](#removendo-um-deployment)
+  - [Conclusão](#conclusão)
+
+
+
+
+
+
+
 &nbsp;
 
 ### Inicio da aula do Day-3
@@ -31,7 +56,7 @@ Quando criamos um Deployment, nós automaticamente estamos criando um ReplicaSet
 
 &nbsp;
 
-### Como criar um Deployment?
+#### Como criar um Deployment?
 
 Para criar um Deployment nós precisamos de um arquivo YAML. Vamos criar um arquivo chamado **deployment.yaml** e vamos adicionar o seguinte conteúdo:
 

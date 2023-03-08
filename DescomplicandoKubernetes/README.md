@@ -8,8 +8,10 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
 
 
 ## Conteúdo
-&nbsp;
-- [DAY-2](#day-2)
+<details>
+<summary>DAY-1</summary>
+
+- [DAY-1](#day-1)
     - [O quê preciso saber antes de começar?](day-1/README.md#o-quê-preciso-saber-antes-de-começar)
     - [Inicio da aula do Day-1](day-1/README.md#inicio-da-aula-do-day-1)
         - [Qual a distro GNU/Linux que devo usar?](day-1/README.md#qual-a-distro-gnu/linux-que-devo-usar?)
@@ -52,6 +54,11 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
             - [Executando nosso primeiro pod no k8s](day-1/README.md#executando-nosso-primeiro-pod-no-k8s)
             - [Expondo o pod e criando um Service](day-1/README.md#expondo-o-pod-e-criando-um-service)
         - [Limpando tudo e indo para casa](day-1/README.md#limpando-tudo-e-indo-para-casa)
+</details>
+
+<details>
+<summary>DAY-2</summary>     
+
 - [DAY-2](day-2/README.md#day-2)
   - [O que iremos ver hoje?](day-2/README.md#o-que-iremos-ver-hoje)
     - [O que é um Pod?](o-que-e-um-pod?)
@@ -64,6 +71,31 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
   - [Os comandos `attach` e `exec`](day-2/README.md#os-comandos-attach-e-exec)
   - [Criando um container com limites de memória e CPU](day-2/README.md#criando-um-container-com-limites-de-memoria-e-cpu)
   - [Adicionando um volume EmptyDir no Pod](day-2/README.md#adicionando-um-volume-emptydir-no-pod)
+
+</details>
+
+<details>
+<summary>DAY-3</summary>
+
+- [DAY-3](#day-3)
+  - [Inicio da aula do Day-3](#inicio-da-aula-do-day-3)
+  - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
+  - [O que é um Deployment?](#o-que-é-um-deployment)
+    - [Como criar um Deployment?](#como-criar-um-deployment)
+      - [O que cada parte do arquivo significa?](#o-que-cada-parte-do-arquivo-significa)
+    - [Como aplicar o Deployment?](#como-aplicar-o-deployment)
+    - [Como verificar os Pods que o Deployment está gerenciando?](#como-verificar-os-pods-que-o-deployment-está-gerenciando)
+    - [Como verificar o ReplicaSet que o Deployment está gerenciando?](#como-verificar-o-replicaset-que-o-deployment-está-gerenciando)
+    - [Como verificar os detalhes do Deployment?](#como-verificar-os-detalhes-do-deployment)
+    - [Como atualizar o Deployment?](#como-atualizar-o-deployment)
+    - [E qual é a estratégia de atualização padrão do Deployment?](#e-qual-é-a-estratégia-de-atualização-padrão-do-deployment)
+    - [As estratégias de atualização do Deployment](#as-estratégias-de-atualização-do-deployment)
+      - [Estratégia RollingUpdate](#estratégia-rollingupdate)
+      - [Estratégia Recreate](#estratégia-recreate)
+      - [Fazendo o rollback de uma atualização](#fazendo-o-rollback-de-uma-atualização)
+    - [Removendo um Deployment](#removendo-um-deployment)
+  - [Conclusão](#conclusão)
+</details>
 
 &nbsp;
 
