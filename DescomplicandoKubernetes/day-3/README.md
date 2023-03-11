@@ -6,24 +6,27 @@
 &nbsp;
 ### Conteúdo do Day-3
 
-- [DAY-3](#day-3)
-  - [Inicio da aula do Day-3](#inicio-da-aula-do-day-3)
-  - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
-  - [O que é um Deployment?](#o-que-é-um-deployment)
-    - [Como criar um Deployment?](#como-criar-um-deployment)
+- [Descomplicando o Kubernetes - Expert Mode](#descomplicando-o-kubernetes---expert-mode)
+  - [DAY-3](#day-3)
+    - [Conteúdo do Day-3](#conteúdo-do-day-3)
+    - [Inicio da aula do Day-3](#inicio-da-aula-do-day-3)
+    - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
+    - [O que é um Deployment?](#o-que-é-um-deployment)
+      - [Como criar um Deployment?](#como-criar-um-deployment)
       - [O que cada parte do arquivo significa?](#o-que-cada-parte-do-arquivo-significa)
-    - [Como aplicar o Deployment?](#como-aplicar-o-deployment)
-    - [Como verificar os Pods que o Deployment está gerenciando?](#como-verificar-os-pods-que-o-deployment-está-gerenciando)
-    - [Como verificar o ReplicaSet que o Deployment está gerenciando?](#como-verificar-o-replicaset-que-o-deployment-está-gerenciando)
-    - [Como verificar os detalhes do Deployment?](#como-verificar-os-detalhes-do-deployment)
-    - [Como atualizar o Deployment?](#como-atualizar-o-deployment)
-    - [E qual é a estratégia de atualização padrão do Deployment?](#e-qual-é-a-estratégia-de-atualização-padrão-do-deployment)
-    - [As estratégias de atualização do Deployment](#as-estratégias-de-atualização-do-deployment)
-      - [Estratégia RollingUpdate](#estratégia-rollingupdate)
-      - [Estratégia Recreate](#estratégia-recreate)
+      - [Como aplicar o Deployment?](#como-aplicar-o-deployment)
+      - [Como verificar se o Deployment foi criado?](#como-verificar-se-o-deployment-foi-criado)
+      - [Como verificar os Pods que o Deployment está gerenciando?](#como-verificar-os-pods-que-o-deployment-está-gerenciando)
+      - [Como verificar o ReplicaSet que o Deployment está gerenciando?](#como-verificar-o-replicaset-que-o-deployment-está-gerenciando)
+      - [Como verificar os detalhes do Deployment?](#como-verificar-os-detalhes-do-deployment)
+      - [Como atualizar o Deployment?](#como-atualizar-o-deployment)
+      - [E qual é a estratégia de atualização padrão do Deployment?](#e-qual-é-a-estratégia-de-atualização-padrão-do-deployment)
+      - [As estratégias de atualização do Deployment](#as-estratégias-de-atualização-do-deployment)
+        - [Estratégia RollingUpdate](#estratégia-rollingupdate)
+        - [Estratégia Recreate](#estratégia-recreate)
       - [Fazendo o rollback de uma atualização](#fazendo-o-rollback-de-uma-atualização)
-    - [Removendo um Deployment](#removendo-um-deployment)
-  - [Conclusão](#conclusão)
+      - [Removendo um Deployment](#removendo-um-deployment)
+      - [Conclusão](#conclusão)
 
 
 
@@ -913,7 +916,5 @@ Pronto, agora nós removemos o Deployment do nosso cluster.
 Durante o dia de hoje, nós aprendemos o que é um Deployment, como criar um Deployment, como atualizar um Deployment, como fazer o rollback de uma atualização, como remover um Deployment e muito mais. Com isso nós já temos uma excelente base para começar a trabalhar com Deployments no Kubernetes.
 
 Ainda falaremos muito sobre os Deployments e conheceremos muitas outras opções que eles nos oferecem, mas por enquanto é isso, espero que tenham gostado e aprendido bastante com o conteúdo de hoje.
-
-Na Day-4 nós vamos falar sobre os ReplicaSets e DaemonSets, então fiquem ligados que a Day-4 está chegando.
 
 #VAIIII
