@@ -11,7 +11,7 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
 <details>
 <summary>DAY-1</summary>
 
-- [DAY-1](#day-1)
+- [DAY-1](day-1/README.md#day-1)
     - [O quê preciso saber antes de começar?](day-1/README.md#o-quê-preciso-saber-antes-de-começar)
     - [Inicio da aula do Day-1](day-1/README.md#inicio-da-aula-do-day-1)
         - [Qual a distro GNU/Linux que devo usar?](day-1/README.md#qual-a-distro-gnu/linux-que-devo-usar?)
@@ -77,7 +77,7 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
 <details>
 <summary>DAY-3</summary>
 
-- [DAY-3](#day-3)
+- [DAY-3](day-3/README.md#day-3)
   - [Inicio da aula do Day-3](#inicio-da-aula-do-day-3)
   - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
   - [O que é um Deployment?](#o-que-é-um-deployment)
@@ -96,6 +96,24 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
     - [Removendo um Deployment](#removendo-um-deployment)
   - [Conclusão](#conclusão)
 </details>
+
+<details>
+<summary>DAY-4</summary>
+
+- [DAY-4](day-4/README.md)
+- [Inicio da aula do Day-4](day-4/README.md#inicio-da-aula-do-day-4)
+- [O que iremos ver hoje?](day-4/README.md#o-que-iremos-ver-hoje)
+  - [ReplicaSet](day-4/README.md#replicaset)
+    - [O Deployment e o ReplicaSet](day-4/README.md#o-deployment-e-o-replicaset)
+    - [Criando um ReplicaSet](day-4/README.md#criando-um-replicaset)
+    - [Apagando o ReplicaSet](day-4/README.md#apagando-o-replicaset)
+  - [O DaemonSet](day-4/README.md#o-daemonset)
+    - [Criando um DaemonSet](day-4/README.md#criando-um-daemonset)
+    - [Criando um DaemonSet utilizando o comando kubectl create](day-4/README.md#criando-um-daemonset-utilizando-o-comando-kubectl-create)
+    - [Aumentando um node no cluster](day-4/README.md#aumentando-um-node-no-cluster)
+    - [Removendo um DaemonSet](day-4/README.md#removendo-um-daemonset)
+  - [A sua lição de casa](day-4/README.md#a-sua-licao-de-casa)
+- [Final do Day-4](day-4/README.md#final-do-day-4)
 
 &nbsp;
 

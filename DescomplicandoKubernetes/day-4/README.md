@@ -6,6 +6,22 @@
 &nbsp;
 ## Conteúdo do Day-4
 
+- [DAY-4](README.md)
+- [Inicio da aula do Day-4](#inicio-da-aula-do-day-4)
+  - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
+  - [ReplicaSet](#replicaset)
+    - [O Deployment e o ReplicaSet](#o-deployment-e-o-replicaset)
+    - [Criando um ReplicaSet](#criando-um-replicaset)
+    - [Apagando o ReplicaSet](#apagando-o-replicaset)
+  - [O DaemonSet](#o-daemonset)
+    - [Criando um DaemonSet](#criando-um-daemonset)
+    - [Criando um DaemonSet utilizando o comando kubectl create](#criando-um-daemonset-utilizando-o-comando-kubectl-create)
+    - [Aumentando um node no cluster](#aumentando-um-node-no-cluster)
+    - [Removendo um DaemonSet](#removendo-um-daemonset)
+  - [A sua lição de casa](#a-sua-licao-de-casa)
+  - [Final do Day-4](#final-do-day-4)
+  
+
 &nbsp;
 
 ## Inicio da aula do Day-4
@@ -40,7 +56,7 @@ Vamos fazer isso na prática?
 
 Acho que vai te ajudar a entender melhor.
 
-### O Deployment e o ReplicaSet
+#### O Deployment e o ReplicaSet
 
 Vamos criar um `Deployment` com o nome de `nginx-deployment` e vamos criar 3 réplicas do `Pod` do `nginx`.
 
@@ -687,6 +703,8 @@ Events:
 
 Na saída acima, podemos ver algumas informações bem importantes relacionadas ao `DaemonSet`, como por exemplo, o número de nós que o `DaemonSet` está gerenciando, o número de `Pods` que estão sendo executados em cada nó, etc.
 
+#### Criando um DaemonSet utilizando o comando kubectl create
+
 Você ainda pode criar um `DaemonSet` utilizando o comando `kubectl create`, mas eu prefiro utilizar o arquivo de manifesto, pois assim eu consigo versionar o meu `DaemonSet`, mas caso você queira criar um `DaemonSet` utilizando o comando `kubectl create`, basta executar o comando abaixo.
 
 ```bash
@@ -819,39 +837,53 @@ Pods Status:  3 Running / 0 Waiting / 0 Succeeded / 0 Failed
 &nbsp;
 
 Tudo em paz e harmonia, o `DaemonSet` está gerenciando o novo `Pod` no novo `node`.
+E claro, se por algum motivo o `Pod` cair, o `DaemonSet` vai criar um novo `Pod` no mesmo `node`. 
+E claro versão 2, se a quantidade de nodes diminuir, o `DaemonSet` vai remover os `Pods` que estão em excesso. E bem lembrado, deixa eu dimunuir o número de nós do cluster para salvar alguns doletas.
 
+```bash
+eksctl scale nodegroup --cluster=eks-cluster --nodes 2 --name eks-cluster-nodegroup
+```
 
+&nbsp;
 
+#### Removendo um DaemonSet
 
+Para remover o `DaemonSet` é bem simples, basta executar o comando `kubectl delete daemonset <nome-do-daemonset>`.
 
+```bash
+kubectl delete daemonset node-exporter
+```
 
+&nbsp;
 
+```bash
+daemonset.apps "node-exporter" deleted
+```
 
+&nbsp;
 
+Ou ainda você pode remover o `DaemonSet` através do manifesto.
 
+```bash
+kubectl delete -f node-exporter-daemonset.yaml
+```
 
+&nbsp;
 
+Simples assim!
 
-
-
-
+Acho que o assunto `DaemonSet` já está bem claro. Ainda iremos ver todos esses objetos que vimos até aqui diversas vezes durante a nossa jornada, então não se preocupe pois iremos praticar muito mais.
 
 &nbsp;
 
 ### A sua lição de casa
 
-A sua lição de casa é 
+A sua lição de casa é treinar tudo o que você aprendeu até aqui. O mais importante é você replicar todo o conteúdo que foi apresentado até aqui, para que você possa fixar, e o mais importante, deixar isso de forma mais natural na sua cabeça.
 
-&nbsp;
-## Desafio do Day-4
-
-Não esqueça de
+Crie seus exemplos, leia a documentação, faça perguntas, e claro, se tiver alguma dúvida, não deixe de perguntar.
 
 &nbsp;
 
-## Final do Day-4
+### Final do Day-4
 
-Durante o Day-4 você aprendeu 
-
-
-&nbsp;
+Durante o Day-4 você aprendeu tudo sobre `ReplicaSet` e `DaemonSet`. O dia de hoje foi importante para que você pudesse entender que um cluster Kubernetes é muito mais do que somente um monte de `Pods` rodando em um monte de `nodes`. E ainda estamos somente no ínicio da nossa jornada, ainda veremos diversos, talvez dezenas de objetos que irão nos ajudar a gerenciar o nosso cluster de maneira mais efetiva.
