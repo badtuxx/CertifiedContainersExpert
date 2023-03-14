@@ -5,16 +5,21 @@
 
 ### Indice
 
+- [Descomplicando o Kubernetes - Expert Mode](#descomplicando-o-kubernetes---expert-mode)
+- [DAY-2](#day-2)
+  - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
+    - [O que é um Pod?](o-que-e-um-pod?)
+    - [Criando um Pod](#criando-um-pod)
+    - [Visualizando detalhes sobre os Pods](#visualizando-detalhes-sobre-os-pods)
+    - [Removendo um Pod](#removendo-um-pod)
+    - [Criando um Pod através de um arquivo YAML](#criando-um-pod-atraves-de-um-arquivo-yaml)
+    - [Visualizando os logs do Pod](#visualizando-os-logs-do-pod)
+    - [Criando um Pod com mais de um container](#criando-um-pod-com-mais-de-um-container)
+  - [Os comandos `attach` e `exec`](#os-comandos-attach-e-exec)
+  - [Criando um container com limites de memória e CPU](#criando-um-container-com-limites-de-memoria-e-cpu)
+  - [Adicionando um volume EmptyDir no Pod](#adicionando-um-volume-emptydir-no-pod)
 
-&nbsp;
 
-- [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
-- [O que é um Pod?](#o-que-é-um-pod)
-- [Criando um Pod](#criando-um-pod)
-- [Criando um Pod através de um arquivo YAML](#criando-um-pod-através-de-um-arquivo-yaml)
-- [Criando um Pod com mais de um container](#criando-um-pod-com-mais-de-um-container)
-- [Criando um container com limites de memória e CPU](#criando-um-container-com-limites-de-memória-e-cpu)
-- [Adicionando um volume EmptyDir no Pod](#adicionando-um-volume-emptydir-no-pod)
 
 &nbsp;
 ### Inicio da aula do Day-2
@@ -37,7 +42,7 @@ Então, quando falamos de Pod, estamos falando de um ou mais containers que comp
 
 &nbsp;
 
-### Criando um Pod
+#### Criando um Pod
 
 Temos basicamente duas formas de criar um Pod, a primeira é através de um comando no terminal e a segunda é através de um arquivo YAML.
 
@@ -48,6 +53,9 @@ kubectl run giropops --image=nginx --port=80
 ```
 
 O comando acima irá criar um Pod chamado giropops, com uma imagem do nginx e com a porta 80 exposta.
+
+
+#### Visualizando detalhes sobre os Pods
 
 Para ver o Pod criado, podemos usar o comando:
 
@@ -139,6 +147,9 @@ kubectl describe pods giropops
 
 Com o `describe` você pode ver todos os detalhes do Pod, inclusive os detalhes do container que está dentro do Pod.
 
+
+#### Removendo um Pod
+
 Agora vamos remover o Pod que criamos, usando o comando:
 
 ```bash
@@ -149,7 +160,7 @@ Fácil né? Agora, vamos criar um Pod através de um arquivo YAML.
 
 &nbsp;
 
-### Criando um Pod através de um arquivo YAML
+#### Criando um Pod através de um arquivo YAML
 
 Vamos criar um arquivo YAML chamado pod.yaml com o seguinte conteúdo:
 
@@ -161,11 +172,11 @@ metadata: # metadados do Pod
 labels: # labels do Pod
   run: giropops # label run com o valor giropops
 spec: # especificação do Pod
-    containers: # containers que estão dentro do Pod
-    - name: giropops # nome do container
-        image: nginx # imagem do container
-        ports: # portas que estão sendo expostas pelo container
-        - containerPort: 80 # porta 80 exposta pelo container
+  containers: # containers que estão dentro do Pod
+  - name: giropops # nome do container
+    image: nginx # imagem do container
+    ports: # portas que estão sendo expostas pelo container
+    - containerPort: 80 # porta 80 exposta pelo container
 ```
 
 Agora, vamos criar o Pod usando o arquivo YAML que acabamos de criar.
@@ -194,6 +205,8 @@ Agora, vamos ver os detalhes do Pod que acabamos de criar.
 kubectl describe pods giropops
 ```
 
+#### Visualizando os logs do Pod
+
 Outro comando muito util para ver o que está acontecendo com o Pod, mais especificamente ver o que o container está logando, é o comando:
 
 ```bash
@@ -216,7 +229,7 @@ kubectl delete pods giropops
 
 &nbsp;
 
-### Criando um Pod com mais de um container
+#### Criando um Pod com mais de um container
 
 Vamos criar um arquivo YAML chamado pod-multi-container.yaml com o seguinte conteúdo:
 
@@ -262,6 +275,8 @@ Agora, vamos ver os detalhes do Pod que acabamos de criar.
 kubectl describe pods giropops
 ```
 
+### Os comandos `attach` e `exec`
+
 Vamos conhecer dois novos comandos, o `attach` e o `exec`.
 
 O comando `attach` é usado para se conectar a um container que está rodando dentro de um Pod. Por exemplo, vamos se conectar ao container do Alpine que está rodando dentro do Pod que criamos.
@@ -296,6 +311,7 @@ Nós também podemos utilizar o `exec` para conectar em uma container que está 
 kubectl exec giropops -c strigus -it -- sh
 ```
 
+
 O parametro `-it` é usado para que o comando `exec` crie um processo dentro do container com interatividade e com um terminal, fazendo com que o comando `exec` se comporte como o comando `attach`, porém com a diferença que o comando `exec` cria um processo dentro do container, no caso o processo `sh`. E por esse motivo que o comando `exec` é mais usado, pois ele cria um processo dentro do container, diferente do comando `attach` que não cria nenhum processo dentro do container.
 
 Nesse caso, podemos até mesmo conectar no container do Nginx, pois ele vai conectar no container criando um processo que é o nosso interpretador de comandos `sh`, sendo possível executar qualquer comando dentro do container pois temos um shell para interagir com o container.
@@ -329,7 +345,7 @@ spec: # especificação do Pod
       limits: # limites máximo de recursos que o container pode utilizar
         memory: "128Mi" # limite de memória que está sendo utilizado pelo container, no caso 128 megabytes no máximo 
         cpu: "0.5" # limite máxima de CPU que o container pode utilizar, no caso 50% de uma CPU no máximo
-    requests: # recursos garantidos ao container
+      requests: # recursos garantidos ao container
         memory: "64Mi" # memória garantida ao container, no caso 64 megabytes
         cpu: "0.3" # CPU garantida ao container, no caso 30% de uma CPU
 ```
@@ -416,10 +432,10 @@ spec:
     - sleep
     - infinity
     resources:
-    limits:
+      limits:
         memory: "128Mi"
         cpu: "0.5"
-    requests:
+      requests:
         memory: "64Mi"
         cpu: "0.3"
 ```
@@ -504,7 +520,7 @@ metadata: # metadados do Pod
   name: giropops # nome do Pod
 spec: # especificação do Pod
   containers: # lista de containers
-- name: girus # nome do container 
+  - name: girus # nome do container 
     image: ubuntu # imagem do container
     args: # argumentos que serão passados para o container
     - sleep # usando o comando sleep para manter o container em execução
@@ -512,10 +528,10 @@ spec: # especificação do Pod
     volumeMounts: # lista de volumes que serão montados no container
     - name: primeiro-emptydir # nome do volume
       mountPath: /giropops # diretório onde o volume será montado 
-volumes: # lista de volumes
-- name: primeiro-emptydir # nome do volume
+  volumes: # lista de volumes
+  - name: primeiro-emptydir # nome do volume
     emptyDir: # tipo do volume
-      SizeLimit: 256Mi # tamanho máximo do volume
+      sizeLimit: 256Mi # tamanho máximo do volume
 ```
 
 Agora vamos criar o Pod.

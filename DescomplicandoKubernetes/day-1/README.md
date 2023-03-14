@@ -444,7 +444,8 @@ kubectl get nodes
 A saída será similar ao conteúdo a seguir:
 
 ```
-kubectl get nodes
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   20s   v1.25.3
 ```
 &nbsp;
 Para criar um cluster com mais de um nó, você pode utilizar o comando abaixo, apenas modificando os valores para o desejado:
@@ -817,7 +818,7 @@ Agora vamos executar novamente o comando para a criação do pod utilizando o pa
 
 
 ```
-kubectl run meu-nginx --image nginx --dry-run=client -o yaml > pod-template.yaml
+kubectl run meu-nginx --image nginx --port 80 --dry-run=client -o yaml > pod-template.yaml
 kubectl create -f pod-template.yaml
 ```
 
