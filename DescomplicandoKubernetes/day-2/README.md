@@ -172,11 +172,11 @@ metadata: # metadados do Pod
 labels: # labels do Pod
   run: giropops # label run com o valor giropops
 spec: # especificação do Pod
-    containers: # containers que estão dentro do Pod
-    - name: giropops # nome do container
-        image: nginx # imagem do container
-        ports: # portas que estão sendo expostas pelo container
-        - containerPort: 80 # porta 80 exposta pelo container
+  containers: # containers que estão dentro do Pod
+  - name: giropops # nome do container
+    image: nginx # imagem do container
+    ports: # portas que estão sendo expostas pelo container
+    - containerPort: 80 # porta 80 exposta pelo container
 ```
 
 Agora, vamos criar o Pod usando o arquivo YAML que acabamos de criar.
@@ -344,7 +344,7 @@ spec: # especificação do Pod
       limits: # limites máximo de recursos que o container pode utilizar
         memory: "128Mi" # limite de memória que está sendo utilizado pelo container, no caso 128 megabytes no máximo 
         cpu: "0.5" # limite máxima de CPU que o container pode utilizar, no caso 50% de uma CPU no máximo
-    requests: # recursos garantidos ao container
+      requests: # recursos garantidos ao container
         memory: "64Mi" # memória garantida ao container, no caso 64 megabytes
         cpu: "0.3" # CPU garantida ao container, no caso 30% de uma CPU
 ```
@@ -431,10 +431,10 @@ spec:
     - sleep
     - infinity
     resources:
-    limits:
+      limits:
         memory: "128Mi"
         cpu: "0.5"
-    requests:
+      requests:
         memory: "64Mi"
         cpu: "0.3"
 ```
@@ -519,7 +519,7 @@ metadata: # metadados do Pod
   name: giropops # nome do Pod
 spec: # especificação do Pod
   containers: # lista de containers
-- name: girus # nome do container 
+  - name: girus # nome do container 
     image: ubuntu # imagem do container
     args: # argumentos que serão passados para o container
     - sleep # usando o comando sleep para manter o container em execução
@@ -527,10 +527,10 @@ spec: # especificação do Pod
     volumeMounts: # lista de volumes que serão montados no container
     - name: primeiro-emptydir # nome do volume
       mountPath: /giropops # diretório onde o volume será montado 
-volumes: # lista de volumes
-- name: primeiro-emptydir # nome do volume
+  volumes: # lista de volumes
+  - name: primeiro-emptydir # nome do volume
     emptyDir: # tipo do volume
-      SizeLimit: 256Mi # tamanho máximo do volume
+      sizeLimit: 256Mi # tamanho máximo do volume
 ```
 
 Agora vamos criar o Pod.
