@@ -18,6 +18,11 @@
     - [Criando um DaemonSet utilizando o comando kubectl create](#criando-um-daemonset-utilizando-o-comando-kubectl-create)
     - [Aumentando um node no cluster](#aumentando-um-node-no-cluster)
     - [Removendo um DaemonSet](#removendo-um-daemonset)
+  - [As Probes do Kubernetes](#as-probes-do-kubernetes)
+    - [O que são as Probes?](#o-que-sao-as-probes)
+    - [Liveness Probe](#liveness-probe)
+    - [Readiness Probe](#readiness-probe)
+    - [Startup Probe](#startup-probe)
   - [A sua lição de casa](#a-sua-licao-de-casa)
   - [Final do Day-4](#final-do-day-4)
   
@@ -35,6 +40,13 @@ Quando falamos sobre `Deployment` é impossível não falar sobre `ReplicaSet`, 
 
 Já o nosso querido `DaemonSet` é um objeto que cria um `Pod` e esse `Pod` é um objeto que fica rodando em todos os nodes do cluster, super importante para nós, pois é com `DaemonSet` que nós conseguimos garantir que teremos pelo menos um `Pod` rodando em cada node do cluster. Por exemplo, imagine que você precisa de instalar os agente do `Datadog` ou ainda um `exporter` do `Prometheus` em todos os nodes do cluster, para isso você precisa de um `DaemonSet`.
 
+Ainda no dia de hoje, nós iremos aprender como garantir que os nossos `Pods` estão rodando corretamente, através das `Probes` do Kubernetes.
+
+Nós vamos falar sobre `Readiness Probe`, `Liveness Probe` e `Startup Probe`, e claro, mostrando todos os detalhes em exemplos práticos e super explicativos.
+
+Hoje é o dia de você aprender sobre esses dois objetos que são super importantes, e ainda, garantir que nós nunca colocaremos os nossos `Pods` em produção sem antes garantir que eles estão rodando corretamente e sendo checados pelas `Probes` do Kubernetes.
+
+Bora lá! #VAIIII
 
 ### ReplicaSet
 
@@ -876,14 +888,875 @@ Acho que o assunto `DaemonSet` já está bem claro. Ainda iremos ver todos esses
 
 &nbsp;
 
+
+### As Probes do Kubernetes
+
+Antes de seguir, eu queria trazer algo novo além dos dois novos objetos que você já aprendeu no dia de hoje.
+Eu queria que você saisse do dia de hoje com a segurança que você e capaz de criar um `Pod`, um `Deployment`, um `ReplicaSet` ou um `DaemonSet`, mas também com a segurança que você pode monitorar o seus suas aplicações que estão rodando dentro do cluster de maneira efetiva e utilizando recursos que o Kubernetes já nos disponibiliza.
+
+#### O que são as Probes?
+
+As probes são uma forma de você monitorar o seu `Pod` e saber se ele está em um estado saudável ou não. Com elas é possível assegurar que seus `Pods` estão rodando e respondendo de maneira correta, e mais do que isso, que o Kubernetes está testando o que está sendo executado dentro do seu `Pod`.
+
+Hoje nós temos disponíveis três tipos de probes, a `livenessProbe`, a `readinessProbe` e a `startupProbe`. Vamos ver no detalhe cada uma delas.
+
+#### Liveness Probe
+
+A `livenessProbe` é a nossa probe de verificação de integridade, o que ela faz é verificar se o que está rodando dentro do `Pod` está saudável. O que fazemos é criar uma forma de testar se o que temos dentro do `Pod` está respondendo conforme esperado. Se por acaso o teste falhar, o `Pod` será reiniciado.
+
+Para ficar mais claro, vamos mais uma vez utilizar o exemplo com o `Nginx`. Gosto de usar o `Nginx` como exemplo, pois sei que toda pessoa já o conhece, e assim, fica muito mais fácil de entender o que está acontecendo. Afinal, você está aqui para aprender Kubernetes, e se for com algo que você já conhece, fica muito mais fácil de entender.
+
+Bem, vamos lá, hora de criar um novo `Deployment` com o `Nginx`, vamos utilizar o exemplo que já utilizamos quando aprendemos sobre o `Deployment`.
+
+Para isso, crie um arquivo chamado `nginx-liveness.yaml` e cole o seguinte conteúdo.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.19.2
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        livenessProbe: # Aqui é onde vamos adicionar a nossa livenessProbe
+          tcpSocket: # Aqui vamos utilizar o tcpSocket, onde vamos se conectar ao container através do protocolo TCP
+            port: 80 # Qual porta TCP vamos utilizar para se conectar ao container
+          initialDelaySeconds: 10 # Quantos segundos vamos esperar para executar a primeira verificação
+          periodSeconds: 10 # A cada quantos segundos vamos executar a verificação
+          timeoutSeconds: 5 # Quantos segundos vamos esperar para considerar que a verificação falhou
+          failureThreshold: 3 # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+```
+
+&nbsp;
+
+Com isso temos algumas coisas novas, e utilizamos apenas uma `probe` que é a `livenessProbe`. 
+
+O que declaramos com a regra acima é que queremos testar se o `Pod` está respondendo através do protocolo TCP, através da opção `tcpSocket`, na porta 80 que foi definida pela opção `port`. E também definimos que queremos esperar 10 segundos para executar a primeira verificação utilizando `initialDelaySeconds` e por conta da `periodSeconds`falamos que queremos que a cada 10 segundos seja realizada a verificação. Caso a verificação falhe, vamos esperar 5 segundos, por conta da `timeoutSeconds`, para tentar novamente, e como utilizamos o `failureThreshold`, se falhar mais 3 vezes, vamos reiniciar o `Pod`.
+      
+Ficou mais claro? Vamos para mais um exemplo.
+
+Vamos imaginar que agora não queremos mais utilizar o `tcpSocket`, mas sim o `httpGet` para tentar acessar um endpoint dentro do nosso `Pod`.
+
+Para isso, vamos alterar o nosso `nginx-deployment.yaml` para o seguinte.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.19.2
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        livenessProbe: # Aqui é onde vamos adicionar a nossa livenessProbe
+          httpGet: # Aqui vamos utilizar o httpGet, onde vamos se conectar ao container através do protocolo HTTP
+            path: / # Qual o endpoint que vamos utilizar para se conectar ao container
+            port: 80 # Qual porta TCP vamos utilizar para se conectar ao container
+          initialDelaySeconds: 10 # Quantos segundos vamos esperar para executar a primeira verificação
+          periodSeconds: 10 # A cada quantos segundos vamos executar a verificação
+          timeoutSeconds: 5 # Quantos segundos vamos esperar para considerar que a verificação falhou
+          failureThreshold: 3 # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+```
+
+&nbsp;
+
+Perceba que agora somente mudamos algumas coisas, apesar de seguir com o mesmo objetivo, que é verificar se o `Nginx` está respondendo corretamente, mudamos como iremos testar isso. Agora estamos utilizando o `httpGet` para testar se o `Nginx` está respondendo corretamente através do protocolo HTTP, e para isso, estamos utilizando o endpoint `/` e a porta 80.
+
+O que temos de novo aqui é a opção `path`, que é o endpoint que vamos utilizar para testar se o `Nginx` está respondendo corretamente, e claro, a `httpGet` é a forma como iremos realizar o nosso teste, através do protocolo HTTP.
+
+&nbsp;
+
+Escolha qual dois dois exemplos você quer utilizar, e crie o seu `Deployment` através do comando abaixo.
+
+```bash
+kubectl apply -f nginx-deployment.yaml
+```
+
+&nbsp;
+
+Para verificar se o `Deployment` foi criado corretamente, execute o comando abaixo.
+
+```bash
+kubectl get deployments
+```
+
+&nbsp;
+
+Você deve ver algo parecido com isso.
+
+```bash
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-7557d7fc6c-dx48d   1/1     Running   0          14s
+nginx-deployment-7557d7fc6c-tbk4w   1/1     Running   0          12s
+nginx-deployment-7557d7fc6c-wv876   1/1     Running   0          16s
+```
+
+&nbsp;
+
+Para que você possa ver mais detalhes sobre o seu `Pod` e saber se a nossa probe está funcionando corretamente, vamos utilizar o comando abaixo.
+
+```bash
+kubectl describe pod nginx-deployment-7557d7fc6c-dx48d
+```
+
+&nbsp;
+
+A saída deve ser parecida com essa.
+
+```bash
+Name:             nginx-deployment-589d6fc888-42fmg
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-39-119.ec2.internal/192.168.39.119
+Start Time:       Thu, 16 Mar 2023 18:49:53 +0100
+Labels:           app=nginx-deployment
+                  pod-template-hash=589d6fc888
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.49.40
+IPs:
+  IP:           192.168.49.40
+Controlled By:  ReplicaSet/nginx-deployment-589d6fc888
+Containers:
+  nginx:
+    Container ID:   docker://f7fc28a1fafbf53471ba144d4fb48bc029d289d93b3565b839ae89a1f38cd894
+    Image:          nginx:1.19.2
+    Image ID:       docker-pullable://nginx@sha256:c628b67d21744fce822d22fdcc0389f6bd763daac23a6b77147d0712ea7102d0
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 16 Mar 2023 18:49:59 +0100
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  256Mi
+    Requests:
+      cpu:        250m
+      memory:     128Mi
+    Liveness:     http-get http://:80/ delay=10s timeout=5s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-8srlq (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-8srlq:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  21s   default-scheduler  Successfully assigned default/nginx-deployment-589d6fc888-42fmg to ip-192-168-39-119.ec2.internal
+  Normal  Pulling    20s   kubelet            Pulling image "nginx:1.19.2"
+  Normal  Pulled     15s   kubelet            Successfully pulled image "nginx:1.19.2" in 4.280120301s (4.280125621s including waiting)
+  Normal  Created    15s   kubelet            Created container nginx
+  Normal  Started    15s   kubelet            Started container nginx
+```
+
+&nbsp;
+
+Aqui temos a informação mais importante para nós nesse momento:
+
+```bash
+    Liveness:     http-get http://:80/ delay=10s timeout=5s period=10s #success=1 #failure=3
+```
+
+&nbsp;
+
+A saída acima é parte da saída do comando `kubectl describe pod`. Tudo funcionando maravilhosamente bem.
+
+Agora vamos fazer o seguinte, vamos alterar o nosso `Deployment`, para que a nossa probe falhe. Para isso vamos alterar o `endpoint` que estamos utilizando. Vamos alterar o `path` para `/giropops`.
+
+&nbsp;
+
+```yaml
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.19.2
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        livenessProbe: # Aqui é onde vamos adicionar a nossa livenessProbe
+          httpGet: # Aqui vamos utilizar o httpGet, onde vamos se conectar ao container através do protocolo HTTP
+            path: /giropops # Qual o endpoint que vamos utilizar para se conectar ao container
+            port: 80 # Qual porta TCP vamos utilizar para se conectar ao container
+          initialDelaySeconds: 10 # Quantos segundos vamos esperar para executar a primeira verificação
+          periodSeconds: 10 # A cada quantos segundos vamos executar a verificação
+          timeoutSeconds: 5 # Quantos segundos vamos esperar para considerar que a verificação falhou
+          failureThreshold: 3 # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+```
+
+&nbsp;
+
+Vamos aplicar as alterações no nosso `Deployment`:
+
+```bash
+kubectl apply -f deployment.yaml
+```
+
+&nbsp;
+
+Depois de um tempo, você perceberá que o Kubernetes finalizou a atualização do nosso `Deployment`. 
+Se você aguardar um pouco mais, você irá perceber que os `Pods` estã̀o sendo reiniciados com frequência.
+
+Tudo isso porque a nossa `livenessProbe` está falhando, afinal o nosso `endpoint` está errado.
+
+Podemos ver mais detalhes sobre o que está acontecendo na saída do comando `kubectl describe pod`:
+
+```bash
+kubectl describe pod nginx-deployment-7557d7fc6c-dx48d
+```
+
+&nbsp;
+
+```bash
+Name:             nginx-deployment-7557d7fc6c-dx48d
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-39-119.ec2.internal/192.168.39.119
+Start Time:       Thu, 16 Mar 2023 18:51:00 +0100
+Labels:           app=nginx-deployment
+                  pod-template-hash=7557d7fc6c
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.44.84
+IPs:
+  IP:           192.168.44.84
+Controlled By:  ReplicaSet/nginx-deployment-7557d7fc6c
+Containers:
+  nginx:
+    Container ID:   docker://c070d9c08bec40ad14562512d7bd8507a44279a327f1b3ecac1621da7ccf21b4
+    Image:          nginx:1.19.2
+    Image ID:       docker-pullable://nginx@sha256:c628b67d21744fce822d22fdcc0389f6bd763daac23a6b77147d0712ea7102d0
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 16 Mar 2023 18:51:41 +0100
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Thu, 16 Mar 2023 18:51:02 +0100
+      Finished:     Thu, 16 Mar 2023 18:51:40 +0100
+    Ready:          True
+    Restart Count:  1
+    Limits:
+      cpu:     500m
+      memory:  256Mi
+    Requests:
+      cpu:        250m
+      memory:     128Mi
+    Liveness:     http-get http://:80/giropops delay=10s timeout=5s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-4sk2f (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-4sk2f:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age               From               Message
+  ----     ------     ----              ----               -------
+  Normal   Scheduled  44s               default-scheduler  Successfully assigned default/nginx-deployment-7557d7fc6c-dx48d to ip-192-168-39-119.ec2.internal
+  Normal   Pulled     4s (x2 over 43s)  kubelet            Container image "nginx:1.19.2" already present on machine
+  Normal   Created    4s (x2 over 43s)  kubelet            Created container nginx
+  Warning  Unhealthy  4s (x3 over 24s)  kubelet            Liveness probe failed: HTTP probe failed with statuscode: 404
+  Normal   Killing    4s                kubelet            Container nginx failed liveness probe, will be restarted
+  Normal   Started    3s (x2 over 42s)  kubelet            Started container nginx
+```
+
+&nbsp;
+
+Na última parte da saída do comando `kubectl describe pod`, você pode ver que o Kubernetes está tentando executar a nossa `livenessProbe` e ela está falhando, inclusive ele mostra a quantidade de vezes que ele tentou executar a `livenessProbe` e falhou, e com isso, ele reiniciou o nosso `Pod`.
+
+&nbsp;
+
+Acho que agora ficou bem mais claro como a `livenessProbe` funciona, então é hora de partir para a próxima probe, a `readinessProbe`.
+
+&nbsp;
+
+#### Readiness Probe
+
+A `readinessProbe` é uma forma de o Kubernetes verificar se o seu container está pronto para receber tráfego, se ele está pronto para receber requisições vindas de fora.
+
+Essa é a nossa probe de leitura, ela fica verificando se o nosso container está pronto para receber requisições, e se estiver pronto, ele irá receber requisições, caso contrário, ele não irá receber requisições, pois será removido do `endpoint` do serviço, fazendo com que o tráfego não chegue até ele.
+
+Ainda iremos ver o que é `service` e `endpoint`, mas por enquanto, basta saber que o `endpoint` é o endereço que o nosso `service` irá usar para acessar o nosso `Pod`. Mas vamos ter um dia inteiro para falar sobre `service` e `endpoint`, então, relaxa.
+
+&nbsp;
+
+Voltando ao assunto, a nossa probe da vez irá garantir que o nosso `Pod`está saudável para receber requisições.
+
+Vamos para um exemplo para ficar mais claro.
+
+Para o nosso exemplo, vamos criar um arquivo chamado `nginx-readiness.yaml` e vamos colocar o seguinte conteúdo:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.19.2
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        readinessProbe: # Onde definimos a nossa probe de leitura
+          httpGet: # O tipo de teste que iremos executar, neste caso, iremos executar um teste HTTP
+            path: / # O caminho que iremos testar
+            port: 80 # A porta que iremos testar
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 2 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+```
+
+&nbsp;
+
+Vamos ver se os nossos `Pods` estão rodando:
+
+```bash
+kubectl get pods
+```
+
+&nbsp;
+
+```bash
+NAME                               READY   STATUS    RESTARTS   AGE
+nginx-deployment-fbdc9b65f-trnnz   0/1     Running   0          6s
+nginx-deployment-fbdc9b65f-z8n4m   0/1     Running   0          6s
+nginx-deployment-fbdc9b65f-zn8zh   0/1     Running   0          6s
+```
+
+&nbsp;
+
+Podemos ver que agora os `Pods` demoram um pouco mais para ficarem prontos, pois estamos executando a nossa `readinessProbe`, e por esse motivo temos que aguardar os 10 segundos inicias que definimos para que seja executada a primeira vez a nossa probe, lembra?
+
+Se você aguardar um pouco, você verá que os `Pods` irão ficar prontos, e você pode ver isso executando o comando:
+
+```bash
+kubectl get pods
+```
+
+&nbsp;
+
+```bash
+NAME                               READY   STATUS    RESTARTS   AGE
+nginx-deployment-fbdc9b65f-trnnz   1/1     Running   0          30s
+nginx-deployment-fbdc9b65f-z8n4m   1/1     Running   0          30s
+nginx-deployment-fbdc9b65f-zn8zh   1/1     Running   0          30s
+```
+
+&nbsp;
+
+Pronto, como mágica agora os nossos `Pods` estão prontos para receber requisições.
+
+Vamos dar uma olhada no `describe` do nosso `Pod`:
+
+```bash
+kubectl describe pod nginx-deployment-fbdc9b65f-trnnz
+```
+
+&nbsp;
+
+```bash
+Name:             nginx-deployment-fbdc9b65f-trnnz
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             ip-192-168-39-119.ec2.internal/192.168.39.119
+Start Time:       Thu, 16 Mar 2023 19:10:07 +0100
+Labels:           app=nginx-deployment
+                  pod-template-hash=fbdc9b65f
+Annotations:      kubernetes.io/psp: eks.privileged
+Status:           Running
+IP:               192.168.49.40
+IPs:
+  IP:           192.168.49.40
+Controlled By:  ReplicaSet/nginx-deployment-fbdc9b65f
+Containers:
+  nginx:
+    Container ID:   docker://09538e27e29c5c649efa88fe148336abd5a47dd4e5a8d32b40b268fb1818dfc4
+    Image:          nginx:1.19.2
+    Image ID:       docker-pullable://nginx@sha256:c628b67d21744fce822d22fdcc0389f6bd763daac23a6b77147d0712ea7102d0
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 16 Mar 2023 19:10:08 +0100
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  256Mi
+    Requests:
+      cpu:        250m
+      memory:     128Mi
+    Readiness:    http-get http://:80/ delay=10s timeout=5s period=10s #success=2 #failure=3
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zpfvb (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-zpfvb:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  60s   default-scheduler  Successfully assigned default/nginx-deployment-fbdc9b65f-trnnz to ip-192-168-39-119.ec2.internal
+  Normal  Pulled     59s   kubelet            Container image "nginx:1.19.2" already present on machine
+  Normal  Created    59s   kubelet            Created container nginx
+  Normal  Started    59s   kubelet            Started container nginx
+```
+
+&nbsp;
+
+Pronto, a nossa probe está lá e funcionando, e com isso podemos garantir que os nossos `Pods` estão prontos para receber requisições.
+
+Vamos mudar o nosso `path` para `/giropops` e ver o que acontece:
+
+```yaml
+...
+        readinessProbe: # Onde definimos a nossa probe de leitura
+          httpGet: # O tipo de teste que iremos executar, neste caso, iremos executar um teste HTTP
+            path: /giropops # O caminho que iremos testar
+            port: 80 # A porta que iremos testar
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 2 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+```
+
+&nbsp;
+
+```bash
+kubectl apply -f nginx-deployment.yaml
+```
+
+&nbsp;
+
+```bash
+deployment.apps/nginx-deployment configured
+```
+
+&nbsp;
+
+Muito bom, agora vamos ver o resultado dessa bagunça:
+
+```bash
+kubectl get pods
+```
+
+&nbsp;
+
+Nesse ponto você pode ver que o Kubernetes está tentando realizar a atualização do nosso `Deployment`, mas não está conseguindo, pois no primeiro `Pod` que ele tentou atualizar, a probe falhou.
+
+```bash
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-5fd6c688d8-kjf8d   0/1     Running   0          93s
+nginx-deployment-fbdc9b65f-trnnz    1/1     Running   0          9m21s
+nginx-deployment-fbdc9b65f-z8n4m    1/1     Running   0          9m21s
+nginx-deployment-fbdc9b65f-zn8zh    1/1     Running   0          9m21s
+```
+
+&nbsp;
+
+Vamos ver o nosso `rollout`:
+
+```bash
+kubectl rollout status deployment/nginx-deployment
+```
+
+&nbsp;
+
+```bash
+Waiting for deployment "nginx-deployment" rollout to finish: 1 out of 3 new replicas have been updated...
+```
+
+&nbsp;
+
+Mesmo depois de algum tempo o nosso `rollout` não terminou, ele continua esperando a nossa probe passar.
+
+Podemos ver os detalhes do `Pod` que está com problema:
+
+```bash
+kubectl describe pod nginx-deployment-5fd6c688d8-kjf8d
+```
+
+&nbsp;
+
+```bash
+Events:
+  Type     Reason     Age                   From               Message
+  ----     ------     ----                  ----               -------
+  Normal   Scheduled  4m4s                  default-scheduler  Successfully assigned default/nginx-deployment-5fd6c688d8-kjf8d to ip-192-168-8-176.ec2.internal
+  Normal   Pulled     4m3s                  kubelet            Container image "nginx:1.19.2" already present on machine
+  Normal   Created    4m3s                  kubelet            Created container nginx
+  Normal   Started    4m3s                  kubelet            Started container nginx
+  Warning  Unhealthy  34s (x22 over 3m44s)  kubelet            Readiness probe failed: HTTP probe failed with statuscode: 404
+```
+
+&nbsp;
+
+Eu somente colei a parte final da saída, que é a parte mais interessante para esse momento. É nessa parte que podemos ver que o nosso `Pod` não está saudável, e por isso o Kubernetes não está conseguindo atualizar o nosso `Deployment`.
+
+&nbsp;
+
+#### Startup Probe
+
+Chegou a hora de falar sobre a probe, que na minha humilde opinião, é a menos utilizada, mas que é muito importante, a `startupProbe`.
+
+Ela é a responsável por verificar se o nosso container foi inicializado corretamente, e se ele está pronto para receber requisições.
+
+Ele é muito parecido com a `readinessProbe`, mas a diferença é que a `startupProbe` é executada apenas uma vez no começo da vida do nosso container, e a `readinessProbe` é executada de tempos em tempos.
+
+Para entender melhor, vamos ver um exemplo criando um arquivo chamado `nginx-startup.yaml`:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.19.2
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        startupProbe: # Onde definimos a nossa probe de inicialização
+          httpGet: # O tipo de teste que iremos executar, neste caso, iremos executar um teste HTTP
+            path: / # O caminho que iremos testar
+            port: 80 # A porta que iremos testar
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 2 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+```
+
+&nbsp;
+
+Agora vamos aplicar a nossa configuração:
+
+```bash
+kubectl apply -f nginx-startup.yaml
+```
+
+&nbsp;
+
+Quando você tentar aplicar, receberá um erro, pois a `successThreshold` não pode ser maior que 1, pois a `startupProbe` é executada apenas uma vez, lembra?
+
+Da mesma forma o `failureThreshold` não pode ser maior que 1, então vamos alterar o nosso arquivo para:
+
+```yaml
+...
+        startupProbe: # Onde definimos a nossa probe de inicialização
+          httpGet: # O tipo de teste que iremos executar, neste caso, iremos executar um teste HTTP
+            path: / # O caminho que iremos testar
+            port: 80 # A porta que iremos testar
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 2 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+```
+
+&nbsp;
+
+Agora vamos aplicar novamente:
+
+```bash
+kubectl apply -f nginx-startup.yaml
+```
+
+&nbsp;
+
+Pronto, aplicado! Ufa! \o/
+
+Perceba que sua definição é super parecida com a `readinessProbe`, mas lembre-se, ela somente será executada uma vez, quando o container for inicializado. Portanto, se alguma coisa acontecer de errado depois disso, ele não irá te salvar, pois ele não irá executar novamente.
+
+Por isso é super importante sempre ter uma combinação entre as probes, para que você tenha um container mais resiliente e que problemas possam ser detectados mais rapidamente.
+
+Vamos ver se os nossos `Pods` estão saudáveis:
+
+```bash
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-6fbd5f9794-66sww   1/1     Running   0          2m12s
+nginx-deployment-6fbd5f9794-cmwq8   1/1     Running   0          2m12s
+nginx-deployment-6fbd5f9794-kvrp8   1/1     Running   0          2m12s
+```
+
+&nbsp;
+
+Caso você queira conferir se a nossa probe está lá, basta usar o comando:
+
+```bash
+kubectl describe pod nginx-deployment-6fbd5f9794-66sww
+```
+
+&nbsp;
+
+E você verá algo parecido com isso:
+
+```bash
+    Startup:      http-get http://:80/ delay=10s timeout=5s period=10s #success=1 #failure=1
+```
+
+&nbsp;
+
+### Exemplo com todas as probes
+
+Vamos para o nosso exemplo final de hoje, vamos utilizar todas as probes que vimos até aqui, e vamos criar um arquivo chamado `nginx-todas-probes.yaml`:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.19.2
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        livenessProbe: # Onde definimos a nossa probe de vida
+          exec: # O tipo exec é utilizado quando queremos executar algo dentro do container.
+            command: # Onde iremos definir qual comando iremos executar
+              - curl
+              - -f
+              - http://localhost:80/
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 1 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+        readinessProbe: # Onde definimos a nossa probe de prontidão
+          httpGet: # O tipo de teste que iremos executar, neste caso, iremos executar um teste HTTP
+            path: / # O caminho que iremos testar
+            port: 80 # A porta que iremos testar
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 1 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+        startupProbe: # Onde definimos a nossa probe de inicialização
+          tcpSocket: # O tipo de teste que iremos executar, neste caso, iremos executar um teste TCP
+            port: 80 # A porta que iremos testar
+          initialDelaySeconds: 10 # O tempo que iremos esperar para executar a primeira vez a probe
+          periodSeconds: 10 # De quanto em quanto tempo iremos executar a probe
+          timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
+          successThreshold: 1 # O número de vezes que a probe precisa passar para considerar que o container está pronto
+          failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+```
+
+&nbsp;
+
+Pronto, estamos utilizando as três probes, vamos aplicar:
+
+```bash
+kubectl apply -f nginx-todas-probes.yaml
+```
+
+&nbsp;
+
+E vamos ver se os nossos `Pods` estão saudáveis:
+
+```bash
+
+```
+
+&nbsp;
+
+Vamos ver na saída do `describe pods` se as nossa probes estão por lá.
+
+```bash
+...
+    Liveness:     exec [curl -f http://localhost:80/] delay=10s timeout=5s period=10s #success=1 #failure=3
+    Readiness:    http-get http://:80/ delay=10s timeout=5s period=10s #success=1 #failure=3
+    Startup:      tcp-socket :80 delay=10s timeout=5s period=10s #success=1 #failure=3
+```
+
+&nbsp;
+
+Todas lá! Maravilha!
+
+Agora podemos dizer que já sabemos como cuidar bem dos nossos `Pods` e deixá-los sempre saudáveis e no controle.
+
+Não esqueça de acessar a documentação oficial do Kubernetes para saber mais sobre as probes, e claro, se tiver alguma dúvida, não deixe de perguntar.
+
+&nbsp;
+
+      
 ### A sua lição de casa
 
 A sua lição de casa é treinar tudo o que você aprendeu até aqui. O mais importante é você replicar todo o conteúdo que foi apresentado até aqui, para que você possa fixar, e o mais importante, deixar isso de forma mais natural na sua cabeça.
 
 Crie seus exemplos, leia a documentação, faça perguntas, e claro, se tiver alguma dúvida, não deixe de perguntar.
 
+Tudo o que você criar daqui pra frente, terá que ter as probes definidas para garantir um bom funcionamento do seu cluster.
+
+Sem falar que é inadmissível você ter um cluster Kubernetes com seus `pods` rodando sem as probes devidamente configuradas, bem como os limites de recursos.
+
+É isso, simples assim! :D
+
+
 &nbsp;
 
 ### Final do Day-4
 
 Durante o Day-4 você aprendeu tudo sobre `ReplicaSet` e `DaemonSet`. O dia de hoje foi importante para que você pudesse entender que um cluster Kubernetes é muito mais do que somente um monte de `Pods` rodando em um monte de `nodes`. E ainda estamos somente no ínicio da nossa jornada, ainda veremos diversos, talvez dezenas de objetos que irão nos ajudar a gerenciar o nosso cluster de maneira mais efetiva.
+
+Hoje ainda você aprendeu como garantir testes em seus containers, seja no momento da inicialização, ou durante a execução, fazendo com que nossas aplicações sejam mais estáveis e confiáveis.

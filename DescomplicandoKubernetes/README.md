@@ -112,6 +112,11 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
     - [Criando um DaemonSet utilizando o comando kubectl create](day-4/README.md#criando-um-daemonset-utilizando-o-comando-kubectl-create)
     - [Aumentando um node no cluster](day-4/README.md#aumentando-um-node-no-cluster)
     - [Removendo um DaemonSet](day-4/README.md#removendo-um-daemonset)
+  - [As Probes do Kubernetes](day-4/README.md#as-probes-do-kubernetes)
+    - [O que são as Probes?](day-4/README.md#o-que-sao-as-probes)
+    - [Liveness Probe](day-4/README.md#liveness-probe)
+    - [Readiness Probe](day-4/README.md#readiness-probe)
+    - [Startup Probe](day-4/README.md#startup-probe)
   - [A sua lição de casa](day-4/README.md#a-sua-licao-de-casa)
 - [Final do Day-4](day-4/README.md#final-do-day-4)
 
