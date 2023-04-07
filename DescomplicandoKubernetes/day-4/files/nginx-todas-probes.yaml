@@ -53,3 +53,4 @@ spec:
           timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
           successThreshold: 1 # O número de vezes que a probe precisa passar para considerar que o container está pronto
           failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
+        

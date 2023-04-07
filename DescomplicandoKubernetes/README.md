@@ -119,6 +119,36 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
     - [Startup Probe](day-4/README.md#startup-probe)
   - [A sua lição de casa](day-4/README.md#a-sua-licao-de-casa)
 - [Final do Day-4](day-4/README.md#final-do-day-4)
+</details>
+
+<details>
+<summary>DAY-5</summary>
+
+- [DAY-5](day-4/README.md#day-5)
+- [Conteúdo do Day-5](day-4/README.md#conteúdo-do-day-5)
+- [Inicio da aula do Day-5](day-4/README.md#inicio-da-aula-do-day-5)
+  - [O que iremos ver hoje?](day-4/README.md#o-que-iremos-ver-hoje)
+  - [Instalação de um cluster Kubernetes](day-4/README.md#instalação-de-um-cluster-kubernetes)
+    - [O que é um cluster Kubernetes?](day-4/README.md#o-que-é-um-cluster-kubernetes)
+    - [Formas de instalar o Kubernetes](day-4/README.md#formas-de-instalar-o-kubernetes)
+    - [Criando um cluster Kubernetes com o kubeadm](day-4/README.md#criando-um-cluster-kubernetes-com-o-kubeadm)
+      - [Instalando o kubeadm](day-4/README.md#instalando-o-kubeadm)
+      - [Desativando o uso do swap no sistema](day-4/README.md#desativando-o-uso-do-swap-no-sistema)
+      - [Carregando os módulos do kernel](day-4/README.md#carregando-os-módulos-do-kernel)
+      - [Configurando parâmetros do sistema](day-4/README.md#configurando-parâmetros-do-sistema)
+      - [Instalando os pacotes do Kubernetes](day-4/README.md#instalando-os-pacotes-do-kubernetes)
+      - [Instalando o Docker e o containerd](day-4/README.md#instalando-o-docker-e-o-containerd)
+      - [Configurando o containerd](day-4/README.md#configurando-o-containerd)
+      - [Habilitando o serviço do kubelet](day-4/README.md#habilitando-o-serviço-do-kubelet)
+      - [Configurando as portas](day-4/README.md#configurando-as-portas)
+      - [Iniciando o cluster](day-4/README.md#iniciando-o-cluster)
+      - [Entendendo o arquivo admin.conf](day-4/README.md#entendendo-o-arquivo-adminconf)
+      - [Instalando o Weave Net](day-4/README.md#instalando-o-weave-net)
+      - [O que é o CNI?](day-4/README.md#o-que-é-o-cni)
+    - [Visualizando detalhes dos nodes](day-4/README.md#visualizando-detalhes-dos-nodes)
+  - [A sua lição de casa](day-4/README.md#a-sua-lição-de-casa)
+- [Final do Day-5](day-4/README.md#final-do-day-5)
+</details>
 
 &nbsp;
 
@@ -208,13 +238,3 @@ Agora que você já conhece mais detalhes sobre o treinamento, acredito que já 
 
 Lembrando que o treinamento está disponível na plataforma da escola da LINUXtips, que não é o mesmo endereço da [loja](https://www.linuxtips.io/), para acessar a escola [CLIQUE AQUI](https://www.linuxtips.io).
 &nbsp;
-
-
-### O conteúdo
-
-Como o treinamento é dividido em **days**, acesse o diretório correto para acessar o conteúdo completar do treinamento do **day** em que vc está estudando.
-
-- [ACESSE O DAY-1](day-1/README.md)
-
-**Bons estudos!**
-
