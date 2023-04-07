@@ -15,6 +15,7 @@
     - [Apagando o ReplicaSet](#apagando-o-replicaset)
   - [O DaemonSet](#o-daemonset)
     - [Criando um DaemonSet](#criando-um-daemonset)
+    - [Criando um DaemonSet utilizando o comando kubectl create](#criando-um-daemonset-utilizando-o-comando-kubectl-create)
     - [Aumentando um node no cluster](#aumentando-um-node-no-cluster)
     - [Removendo um DaemonSet](#removendo-um-daemonset)
   - [As Probes do Kubernetes](#as-probes-do-kubernetes)
@@ -713,6 +714,44 @@ Events:
 &nbsp;
 
 Na saída acima, podemos ver algumas informações bem importantes relacionadas ao `DaemonSet`, como por exemplo, o número de nós que o `DaemonSet` está gerenciando, o número de `Pods` que estão sendo executados em cada nó, etc.
+
+#### Criando um DaemonSet utilizando o comando kubectl create
+
+Você ainda pode criar um `DaemonSet` utilizando o comando `kubectl create`, mas eu prefiro utilizar o arquivo de manifesto, pois assim eu consigo versionar o meu `DaemonSet`, mas caso você queira criar um `DaemonSet` utilizando o comando `kubectl create`, basta executar o comando abaixo.
+
+```bash
+kubectl create daemonset node-exporter --image=prom/node-exporter:latest --port=9100 --host-port=9100
+```
+
+&nbsp;
+
+Ficaram faltando alguns parâmetros no comando acima, mas eu deixei assim para facilitar o entendimento, caso você queira ver todos os parâmetros que podem ser utilizados no comando `kubectl create daemonset`, basta executar o comando abaixo.
+
+```bash
+kubectl create daemonset --help
+```
+
+&nbsp;
+
+Eu gosto de utilizar o `kubectl create` somente para criar um arquivo exemplo, para que eu possa me basear na hora de criar o meu arquivo de manifesto, mas caso você queira criar um manifesto para criar `DaemonSet` utilizando o comando `kubectl create`, basta executar o comando abaixo.
+
+```bash
+kubectl create daemonset node-exporter --image=prom/node-exporter:latest --port=9100 --host-port=9100 -o yaml --dry-run=client > node-exporter-daemonset.yaml
+```
+
+&nbsp;
+
+Simples assim! Vou te explicar o que está acontecendo no comando acima.
+
+- `kubectl create daemonset node-exporter` - Cria um `DaemonSet` chamado `node-exporter`.
+- `--image=prom/node-exporter:latest` - Utiliza a imagem `prom/node-exporter:latest` para criar os `Pods`.
+- `--port=9100` - Define a porta `9100` para o `Pod`.
+- `--host-port=9100` - Define a porta `9100` para o nó.
+- `-o yaml` - Define o formato do arquivo de manifesto como `yaml`.
+- `--dry-run=client` - Executa o comando sem criar o `DaemonSet`, somente simula a criação do `DaemonSet`.
+- `> node-exporter-daemonset.yaml` - Redireciona a saída do comando para o arquivo `node-exporter-daemonset.yaml`.
+
+Ficou mais simples, certo?
 
 #### Aumentando um node no cluster
 
