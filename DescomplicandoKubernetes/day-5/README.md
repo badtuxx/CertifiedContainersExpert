@@ -181,9 +181,9 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
-##### Instalando o Docker e o containerd
+##### Instalando o containerd
 
-Em seguida, vamos instalar o Docker e o containerd, que são essenciais para nosso ambiente Kubernetes:
+Em seguida, vamos instalar o containerd, que são essenciais para nosso ambiente Kubernetes:
 
 ```
 sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
