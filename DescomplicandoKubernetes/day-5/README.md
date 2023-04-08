@@ -226,7 +226,7 @@ Em nosso exemplo vamos utilizar como CNI o Weave Net, que é um CNI que utiliza 
 
 Então já sabe, não esqueça de abrir as portas TCP 6443, 10250-10255 e 6783 no seu firewall.
 
-##### Iniciando o cluster
+##### Inicializando o cluster
 
 Agora que temos tudo configurado, vamos iniciar o nosso cluster:
 
