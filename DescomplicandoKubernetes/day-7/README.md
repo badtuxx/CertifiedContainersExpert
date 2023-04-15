@@ -3,11 +3,6 @@
 ## DAY-7
 &nbsp;
 
-### O que iremos ver hoje?
-
-
-
-
 
 &nbsp;
 ### Conteúdo do Day-7
@@ -28,13 +23,7 @@ Então esteja preparado para uma viajem muito interessante sobre esses dois recu
 
 ### O que é um StatefulSet?
 
-Primeira coisa que temos que ter em mente quando falamos sobre `StatefulSets` no Kubernetes, é que muito do que nós veremos aqui será bem parecido com o conceito de `Deployment`, porém com algumas diferenças e vou listar elas aqui para vocês.
 
-`StatefulSets` são usados para aplicações que precisam manter a identidade do `Pod` e persistir dados em volumes locais, dito isso é bem comum de se ver `StatefulSets` sendo usados para bancos de dados, sistemas de mensageria e sistemas de arquivos distribuídos.
-
-Outra caracteristica muito importante do `StatefulSets` é o melhor gerenciamento no momento de criação e remoção de `Pods`. Isso é feito através de um mecanismo de controle interno que garante que os `Pods` sejam criados e removidos na ordem correta, na ordem que você definiu no `StatefulSet`.
-
-Outra caracteristica importante é que os `Pods` criados por um `StatefulSet` são criados com um nome estático, ou seja, o nome do `Pod` é baseado no nome do `StatefulSet` e no índice do `Pod` dentro do `StatefulSet`. Isso é muito importante para que você possa fazer referência a um `Pod` específico dentro do `StatefulSet` e também para que você possa fazer referência a um `Pod` específico dentro do `StatefulSet` através de um `Service`. Com isso, mesmo que o `Pod` seja removido e criado novamente, ele continuará com o mesmo nome.
 &nbsp;
 
 &nbsp;

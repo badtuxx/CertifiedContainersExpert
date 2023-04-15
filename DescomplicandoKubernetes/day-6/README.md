@@ -12,6 +12,7 @@
   - [Inicio da aula do Day-6](#inicio-da-aula-do-day-6)
     - [O que iremos ver hoje?](#o-que-iremos-ver-hoje)
       - [O que são volumes?](#o-que-são-volumes)
+        - [EmpytDir](#empytdir)
         - [Storage Class](#storage-class)
         - [PV - Persistent Volume](#pv---persistent-volume)
         - [PVC - Persistent Volume Claim](#pvc---persistent-volume-claim)
@@ -44,6 +45,139 @@ Os `ephemeral volumes`, que inclusive já vimos durante o treinamento o `emptyDi
 Agora quando estamos falando sobre volumes do tipo `persistent volumes`, estamos falando sobre volumes que são criados e não são destruídos junto com o `Pod`, eles são persistidos, são volumes que seus dados são mantidos mesmo que o `Pod` seja removido.
 
 Esse tipo de volume é super importante para aplicações que precisam armazenar dados que precisam ser mantidos mesmo que o `Pod` seja removido, como por exemplo, um banco de dados.
+
+
+##### EmpytDir
+
+Um volume do tipo EmptyDir é um volume que é criado no momento em que o Pod é criado, e ele é destruído quando o Pod é destruído, ou seja, ele é um volume temporário.
+
+No dia-a-dia, você não vai usar muito esse tipo de volume, mas é importante que você saiba que ele existe. Um dos casos de uso mais comuns é quando você precisa compartilhar dados entre os containers de um Pod. Imagina que você tem dois containers em um Pod e um deles possui um diretório com dados, e você quer que o outro container tenha acesso a esses dados. Nesse caso, você pode criar um volume do tipo EmptyDir e compartilhar esse volume entre os dois containers.
+
+Chame o arquivo de `pod-emptydir.yaml`.
+
+```yaml
+apiVersion: v1 # versão da API do Kubernetes
+kind: Pod # tipo de objeto que estamos criando
+metadata: # metadados do Pod
+  name: giropops # nome do Pod
+spec: # especificação do Pod
+  containers: # lista de containers
+  - name: girus # nome do container 
+    image: ubuntu # imagem do container
+    args: # argumentos que serão passados para o container
+    - sleep # usando o comando sleep para manter o container em execução
+    - infinity # o argumento infinity faz o container esperar para sempre
+    volumeMounts: # lista de volumes que serão montados no container
+    - name: primeiro-emptydir # nome do volume
+      mountPath: /giropops # diretório onde o volume será montado 
+  volumes: # lista de volumes
+  - name: primeiro-emptydir # nome do volume
+    emptyDir: # tipo do volume
+      sizeLimit: 256Mi # tamanho máximo do volume
+```
+
+&nbsp;
+
+Precisamos entender o que está acontecendo no nosso arquivo `pod-emptydir.yaml`, afinal agora temos novas informações, como por exemplo, o `volumeMounts` e o `volumes`.
+
+
+```yaml
+    volumeMounts: # lista de volumes que serão montados no container
+    - name: primeiro-emptydir # nome do volume
+      mountPath: /giropops # diretório onde o volume será montado 
+  volumes: # lista de volumes
+  - name: primeiro-emptydir # nome do volume
+    emptyDir: # tipo do volume
+      sizeLimit: 256Mi # tamanho máximo do volume
+```
+
+&nbsp;
+
+Vou detalhar o que está acontecendo no nosso arquivo `pod-emptydir.yaml`.
+
+- `volumeMounts`: é uma lista de volumes que serão montados no container. Nesse caso, estamos montando um volume chamado `primeiro-emptydir` no diretório `/giropops` dentro do container.
+  - `name`: é o nome do volume que será montado no container.
+  - `mountPath`: é o diretório onde o volume será montado no container.
+- `volumes`: é uma lista de volumes que serão criados no momento em que o Pod for criado. Nesse caso, estamos criando um volume do tipo `emptyDir` chamado `primeiro-emptydir`.
+  - `name`: é o nome do volume que será criado.
+  - `emptyDir`: é o tipo do volume que será criado.
+    - `sizeLimit`: é o tamanho máximo do volume que será criado.
+
+&nbsp;
+
+Essas são configurações básicas para criarmos um volume do tipo EmptyDir, caso você queira saber mais sobre esse tipo de volume, você pode acessar a [documentação oficial](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir).
+
+
+Agora vamos criar o Pod.
+
+```bash
+kubectl create -f pod-emptydir.yaml
+```
+
+Agora vamos verificar se o Pod foi criado.
+
+```bash
+kubectl get pods
+```
+
+Você pode ver a saída do comando `kubectl describe pod giropops` para ver o volume que foi criado.
+
+```bash
+kubectl describe pod giropops
+```
+
+Agora vamos para dentro do container.
+
+```bash
+kubectl exec -it ubuntu -- bash
+```
+
+Agora vamos criar um arquivo dentro do diretório `/giropops`.
+
+```bash
+touch /giropops/FUNCIONAAAAAA
+```
+
+Pronto, o nosso arquivo foi criado dentro do diretório `/giropops`, que é um diretório dentro do volume do tipo EmptyDir.
+
+Se você digitar `mount`, vai ver que o diretório `/giropops` está montado certinho dentro de nosso container.
+
+
+Quando você remover o Pod, o volume do tipo EmptyDir também será removido.
+
+```bash
+kubectl delete pod giropops
+```
+
+&nbsp;
+
+Vamos criar o Pod novamente.
+
+```bash
+kubectl create -f pod-emptydir.yaml
+```
+
+&nbsp;
+
+Pod criado, agora vamos para dentro do container.
+
+```bash
+kubectl exec -it ubuntu -- bash
+```
+
+Vamos verificar se o arquivo que criamos anteriormente ainda existe.
+
+```bash
+ls /giropops
+```
+
+&nbsp;
+
+Como você pode ver, o arquivo que criamos anteriormente não existe mais, pois o volume do tipo EmptyDir foi destruído quando o Pod foi destruído.
+
+
+&nbsp;
+
 
 
 ##### Storage Class
