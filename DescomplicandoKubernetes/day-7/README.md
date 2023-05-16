@@ -25,7 +25,7 @@
         - [Os Services e os Endpoints](#os-services-e-os-endpoints)
         - [Criando um Service](#criando-um-service)
           - [ClusterIP](#clusterip)
-          - [ClusterIP](#clusterip-1)
+          - [NodePort](#nodeport)
           - [LoadBalancer](#loadbalancer)
           - [ExternalName](#externalname)
         - [Verificando os Services](#verificando-os-services)
@@ -438,7 +438,7 @@ Simples demais, não?
 
 &nbsp;
 
-###### ClusterIP
+###### NodePort
 
 Para criar um serviço NodePort via CLI, você pode usar o comando kubectl expose com a opção --type=NodePort. Por exemplo:
 
