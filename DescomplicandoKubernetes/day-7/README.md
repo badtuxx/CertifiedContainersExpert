@@ -663,8 +663,6 @@ E por último, mas não menos importante, crie um `Service` do tipo `ExternalNam
 
 Lembre-se, a prática leva à perfeição, então não pule essa lição de casa! ;) E quando tiver dúvidas ou enfrentar problemas, não hesite em procurar ajuda. Estamos todos aqui para aprender juntos!
 
-Até a próxima aula! **#VAIIII**
-
 &nbsp;
 
 ## Final do Day-7
