@@ -6,58 +6,59 @@ O Treinamento é composto por material escrito, aulas gravadas em vídeo e aulas
 
 O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de maneira eficiente e totalmente preparada para trabalhar em ambientes críticos que utilizam containers.
 
-
 ## Conteúdo
+
 <details>
 <summary>DAY-1</summary>
 
 - [DAY-1](day-1/README.md#day-1)
-    - [O quê preciso saber antes de começar?](day-1/README.md#o-quê-preciso-saber-antes-de-começar)
-    - [Inicio da aula do Day-1](day-1/README.md#inicio-da-aula-do-day-1)
-        - [Qual a distro GNU/Linux que devo usar?](day-1/README.md#qual-a-distro-gnu/linux-que-devo-usar?)
-        - [Alguns sites que devemos visitar](day-1/README.md#alguns-sites-que-devemos-visitar)
-        - [O Container Engine](day-1/README.md#o-container-engine)
-        - [OCI - Open Container Initiative](day-1/README.md#oci---open-container-initiative)
-        - [O Container Runtime](day-1/README.md#o-container-runtime)
-        - [O que é o Kubernetes?](day-1/README.md#o-que-é-o-kubernetes?)
-            - [Arquitetura do k8s](day-1/README.md#arquitetura-do-k8s)
-        - [Instalando e customizando o Kubectl](day-1/README.md#instalando-e-customizando-o-kubectl)
-            - [Instalação do Kubectl no GNU/Linux](day-1/README.md#instalação-do-kubectl-no-gnu/linux)
-            - [Instalação do Kubectl no MacOS](day-1/README.md#instalação-do-kubectl-no-macos)
-            - [Instalação do Kubectl no Windows](day-1/README.md#instalação-do-kubectl-no-windows)
-            - [Customizando o kubectl](day-1/README.md#customizando-o-kubectl)
-            - [Auto-complete do kubectl](day-1/README.md#auto-complete-do-kubectl) 
-            - [Criando um alias para o kubectl](day-1/README.md#criando-um-alias-para-o-kubectl)
-        - [Criando um cluster Kubernetes](day-1/README.md#criando-um-cluster-kubernetes)
-            - [Criando o cluster em sua máquina local](day-1/README.md#criando-o-cluster-em-sua-máquina-local)
-                - [Minikube](day-1/README.md#minikube)
-                    - [Requisitos básicos para o Minikube](day-1/README.md#requisitos-básicos-para-o-minikube)
-                    - [Instalação do Minikube no GNU/Linux](day-1/README.md#instalação-do-minikube-no-gnu/linux)
-                    - [Instalação do Minikube no MacOS](day-1/README.md#instalação-do-minikube-no-macos)
-                    - [Instalação do Minikube no Microsoft Windows](day-1/README.md#instalação-do-minikube-no-microsoft-windows)
-                    - [Iniciando, parando e excluindo o Minikube](day-1/README.md#iniciando,-parando-e-excluindo-o-minikube)
-                    - [Ver detalhes sobre o cluster](day-1/README.md#ver-detalhes-sobre-o-cluster)
-                    - [Descobrindo o endereço do Minikube](day-1/README.md#descobrindo-o-endereço-do-minikube)
-                    - [Acessando a máquina do Minikube via SSH](day-1/README.md#acessando-a-máquina-do-minikube-via-ssh)
-                    - [Dashboard do Minikube](day-1/README.md#dashboard-do-minikube)
-                    - [Logs do Minikube](day-1/README.md#logs-do-minikube)
-                    - [Remover o cluster](day-1/README.md#remover-o-cluster)
-                - [Kind](day-1/README.md#kind)
-                    - [Instalação no GNU/Linux](day-1/README.md#instalação-no-gnu/linux)
-                    - [Instalação no MacOS](day-1/README.md#instalação-no-macos)
-                    - [Instalação no Windows](day-1/README.md#instalação-no-windows)
-                    - [Instalação no Windows via Chocolatey](day-1/README.md#instalação-no-windows-via-chocolatey)
-                    - [Criando um cluster com o Kind](day-1/README.md#criando-um-cluster-com-o-kind)
-                    - [Criando um cluster com múltiplos nós locais com o Kind](day-1/README.md#criando-um-cluster-com-múltiplos-nós-locais-com-o-kind)
-        - [Primeiros passos no k8s](day-1/README.md#primeiros-passos-no-k8s)
-            - [Verificando os namespaces e pods](day-1/README.md#verificando-os-namespaces-e-pods)
-            - [Executando nosso primeiro pod no k8s](day-1/README.md#executando-nosso-primeiro-pod-no-k8s)
-            - [Expondo o pod e criando um Service](day-1/README.md#expondo-o-pod-e-criando-um-service)
-        - [Limpando tudo e indo para casa](day-1/README.md#limpando-tudo-e-indo-para-casa)
+  - [O quê preciso saber antes de começar?](day-1/README.md#o-quê-preciso-saber-antes-de-começar)
+  - [Inicio da aula do Day-1](day-1/README.md#inicio-da-aula-do-day-1)
+    - [Qual a distro GNU/Linux que devo usar?](day-1/README.md#qual-a-distro-gnu/linux-que-devo-usar?)
+    - [Alguns sites que devemos visitar](day-1/README.md#alguns-sites-que-devemos-visitar)
+    - [O Container Engine](day-1/README.md#o-container-engine)
+    - [OCI - Open Container Initiative](day-1/README.md#oci---open-container-initiative)
+    - [O Container Runtime](day-1/README.md#o-container-runtime)
+    - [O que é o Kubernetes?](day-1/README.md#o-que-é-o-kubernetes?)
+      - [Arquitetura do k8s](day-1/README.md#arquitetura-do-k8s)
+    - [Instalando e customizando o Kubectl](day-1/README.md#instalando-e-customizando-o-kubectl)
+      - [Instalação do Kubectl no GNU/Linux](day-1/README.md#instalação-do-kubectl-no-gnu/linux)
+      - [Instalação do Kubectl no MacOS](day-1/README.md#instalação-do-kubectl-no-macos)
+      - [Instalação do Kubectl no Windows](day-1/README.md#instalação-do-kubectl-no-windows)
+      - [Customizando o kubectl](day-1/README.md#customizando-o-kubectl)
+      - [Auto-complete do kubectl](day-1/README.md#auto-complete-do-kubectl)
+      - [Criando um alias para o kubectl](day-1/README.md#criando-um-alias-para-o-kubectl)
+    - [Criando um cluster Kubernetes](day-1/README.md#criando-um-cluster-kubernetes)
+      - [Criando o cluster em sua máquina local](day-1/README.md#criando-o-cluster-em-sua-máquina-local)
+        - [Minikube](day-1/README.md#minikube)
+          - [Requisitos básicos para o Minikube](day-1/README.md#requisitos-básicos-para-o-minikube)
+          - [Instalação do Minikube no GNU/Linux](day-1/README.md#instalação-do-minikube-no-gnu/linux)
+          - [Instalação do Minikube no MacOS](day-1/README.md#instalação-do-minikube-no-macos)
+          - [Instalação do Minikube no Microsoft Windows](day-1/README.md#instalação-do-minikube-no-microsoft-windows)
+          - [Iniciando, parando e excluindo o Minikube](day-1/README.md#iniciando,-parando-e-excluindo-o-minikube)
+          - [Ver detalhes sobre o cluster](day-1/README.md#ver-detalhes-sobre-o-cluster)
+          - [Descobrindo o endereço do Minikube](day-1/README.md#descobrindo-o-endereço-do-minikube)
+          - [Acessando a máquina do Minikube via SSH](day-1/README.md#acessando-a-máquina-do-minikube-via-ssh)
+          - [Dashboard do Minikube](day-1/README.md#dashboard-do-minikube)
+          - [Logs do Minikube](day-1/README.md#logs-do-minikube)
+          - [Remover o cluster](day-1/README.md#remover-o-cluster)
+        - [Kind](day-1/README.md#kind)
+          - [Instalação no GNU/Linux](day-1/README.md#instalação-no-gnu/linux)
+          - [Instalação no MacOS](day-1/README.md#instalação-no-macos)
+          - [Instalação no Windows](day-1/README.md#instalação-no-windows)
+          - [Instalação no Windows via Chocolatey](day-1/README.md#instalação-no-windows-via-chocolatey)
+          - [Criando um cluster com o Kind](day-1/README.md#criando-um-cluster-com-o-kind)
+          - [Criando um cluster com múltiplos nós locais com o Kind](day-1/README.md#criando-um-cluster-com-múltiplos-nós-locais-com-o-kind)
+    - [Primeiros passos no k8s](day-1/README.md#primeiros-passos-no-k8s)
+      - [Verificando os namespaces e pods](day-1/README.md#verificando-os-namespaces-e-pods)
+      - [Executando nosso primeiro pod no k8s](day-1/README.md#executando-nosso-primeiro-pod-no-k8s)
+      - [Expondo o pod e criando um Service](day-1/README.md#expondo-o-pod-e-criando-um-service)
+    - [Limpando tudo e indo para casa](day-1/README.md#limpando-tudo-e-indo-para-casa)
+
 </details>
 
 <details>
-<summary>DAY-2</summary>     
+<summary>DAY-2</summary>
 
 - [DAY-2](day-2/README.md#day-2)
   - [O que iremos ver hoje?](day-2/README.md#o-que-iremos-ver-hoje)
@@ -95,6 +96,7 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
       - [Fazendo o rollback de uma atualização](#fazendo-o-rollback-de-uma-atualização)
     - [Removendo um Deployment](#removendo-um-deployment)
   - [Conclusão](#conclusão)
+
 </details>
 
 <details>
@@ -119,6 +121,7 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
     - [Startup Probe](day-4/README.md#startup-probe)
   - [A sua lição de casa](day-4/README.md#a-sua-licao-de-casa)
 - [Final do Day-4](day-4/README.md#final-do-day-4)
+
 </details>
 
 <details>
@@ -148,10 +151,57 @@ O foco do treinamento é capacitar a pessoa para trabalhar com Kubernetes de man
     - [Visualizando detalhes dos nodes](day-5/README.md#visualizando-detalhes-dos-nodes)
   - [A sua lição de casa](day-5/README.md#a-sua-lição-de-casa)
 - [Final do Day-5](day-5/README.md#final-do-day-5)
+
 </details>
 
-&nbsp;
+<details>
+<summary>DAY-6</summary>
 
+- [DAY-6](day-6/README.md#day-6)
+  - [Conteúdo do Day-6](day-6/README.md#conteúdo-do-day-6)
+  - [Inicio da aula do Day-6](day-6/README.md#inicio-da-aula-do-day-6)
+    - [O que iremos ver hoje?](day-6/README.md#o-que-iremos-ver-hoje)
+      - [O que são volumes?](day-6/README.md#o-que-são-volumes)
+        - [EmpytDir](day-6/README.md#empytdir)
+        - [Storage Class](day-6/README.md#storage-class)
+        - [PV - Persistent Volume](day-6/README.md#pv---persistent-volume)
+        - [PVC - Persistent Volume Claim](day-6/README.md#pvc---persistent-volume-claim)
+    - [A sua lição de casa](day-6/README.md#a-sua-lição-de-casa)
+  - [Final do Day-6](day-6/README.md#final-do-day-6)
+
+</details>
+
+<details>
+<summary>DAY-7</summary>
+
+- [DAY-7](day-7/README.md#day-7)
+- [Conteúdo do Day-7](day-7/README.md#conteúdo-do-day-7)
+  - [O que iremos ver hoje?](day-7/README.md#o-que-iremos-ver-hoje)
+    - [O que é um StatefulSet?](day-7/README.md#o-que-é-um-statefulset)
+      - [Quando usar StatefulSets?](day-7/README.md#quando-usar-statefulsets)
+      - [E como ele funciona?](day-7/README.md#e-como-ele-funciona)
+      - [O StatefulSet e os volumes persistentes](day-7/README.md#o-statefulset-e-os-volumes-persistentes)
+      - [O StatefulSet e o Headless Service](day-7/README.md#o-statefulset-e-o-headless-service)
+      - [Criando um StatefulSet](day-7/README.md#criando-um-statefulset)
+      - [Excluindo um StatefulSet](day-7/README.md#excluindo-um-statefulset)
+      - [Excluindo um Headless Service](day-7/README.md#excluindo-um-headless-service)
+      - [Excluindo um PVC](day-7/README.md#excluindo-um-pvc)
+    - [Services](day-7/README.md#services)
+      - [Tipos de Services](day-7/README.md#tipos-de-services)
+      - [Como os Services funcionam](day-7/README.md#como-os-services-funcionam)
+      - [Os Services e os Endpoints](day-7/README.md#os-services-e-os-endpoints)
+      - [Criando um Service](day-7/README.md#criando-um-service)
+        - [ClusterIP](day-7/README.md#clusterip)
+        - [ClusterIP](day-7/README.md#clusterip-1)
+        - [LoadBalancer](day-7/README.md#loadbalancer)
+        - [ExternalName](day-7/README.md#externalname)
+      - [Verificando os Services](day-7/README.md#verificando-os-services)
+      - [Verificando os Endpoints](day-7/README.md#verificando-os-endpoints)
+      - [Removendo um Service](day-7/README.md#removendo-um-service)
+  - [A sua lição de casa](day-7/README.md#a-sua-lição-de-casa)
+- [Final do Day-7](day-7/README.md#final-do-day-7)
+
+&nbsp;
 
 ## O treinamento Descomplicando o Kubernetes - Expert Mode
 
@@ -167,9 +217,7 @@ Estamos prontos para iniciar a nossa viagem?
 
 O conteúdo ainda será ajustado, e no final do treinamento teremos o conteúdo completo.
 
-
 &nbsp;
-
 
 ### Como adquirir o treinamento?
 
@@ -190,8 +238,7 @@ Prepare-se para um novo tipo de treinamento, e o melhor, prepare-se para um novo
 
 ### As pessoas (personagens) no treinamento
 
-Temos algumas pessoas que vão nos ajudar durante o treinamento, simulando uma dinâmica um pouco maior e ajudando na imersão que gostaríamos. 
-
+Temos algumas pessoas que vão nos ajudar durante o treinamento, simulando uma dinâmica um pouco maior e ajudando na imersão que gostaríamos.
 
 Ainda estamos desenvolvendo e aprimorando os personagens e o enredo, portanto ainda teremos muitas novidades.
 
@@ -205,9 +252,9 @@ Segundo uma pessoa que já trabalhou com a Pessoa_X, ela é a pessoa que está s
 
 O nível de conhecimento dela é sempre iniciante quando ela entra em um novo projeto, porém ao final dele, ela se torna uma especialista e com uma boa experiência prática, pois ela foi exposta a diversas situações, que a fizeram conhecer a nova tecnologia muito bem e se sentindo muito confortável em trabalhar no projeto.
 
-Pessoa_X, foi um prazer fazer essa pequena descrição sobre você! 
+Pessoa_X, foi um prazer fazer essa pequena descrição sobre você!
 
-Seja bem-vinda nesse novo projeto e espero que você se divirta como sempre! 
+Seja bem-vinda nesse novo projeto e espero que você se divirta como sempre!
 
 Lembre-se sempre que eu, Jeferson, estarei aqui para apoiar você em cada etapa dessa jornada! Eu sou o seu parceiro nesse projeto e tudo o que você precisar nessa jornada! Bora!
 
@@ -230,7 +277,6 @@ Líder imediato da Pessoa_Lider_X e que tem um sobrinho 'jênio' e que está ali
 A pessoa responsável pelo RH da empresa, no decorrer do treinamento vamos faz
 endo a história e características dela.
 &nbsp;
-
 
 ## Vamos começar?
 
