@@ -159,6 +159,8 @@ Para verificar se o `StatefulSet` foi criado, podemos utilizar o comando:
 
 ```bash
 kubectl get statefulset
+NAME    READY   AGE
+nginx   3/3     2m38s
 ```
 
 &nbsp;
@@ -167,6 +169,45 @@ Caso queira ver com mais detalhes, podemos utilizar o comando:
 
 ```bash
 kubectl describe statefulset nginx
+
+Name:               nginx
+Namespace:          default
+CreationTimestamp:  Thu, 18 May 2023 23:44:45 +0200
+Selector:           app=nginx
+Labels:             <none>
+Annotations:        <none>
+Replicas:           3 desired | 3 total
+Update Strategy:    RollingUpdate
+  Partition:        0
+Pods Status:        3 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:        nginx
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:
+      /usr/share/nginx/html from www (rw)
+  Volumes:  <none>
+Volume Claims:
+  Name:          www
+  StorageClass:  
+  Labels:        <none>
+  Annotations:   <none>
+  Capacity:      1Gi
+  Access Modes:  [ReadWriteOnce]
+Events:
+  Type    Reason            Age   From                    Message
+  ----    ------            ----  ----                    -------
+  Normal  SuccessfulCreate  112s  statefulset-controller  create Claim www-nginx-0 Pod nginx-0 in StatefulSet nginx success
+  Normal  SuccessfulCreate  112s  statefulset-controller  create Pod nginx-0 in StatefulSet nginx successful
+  Normal  SuccessfulCreate  102s  statefulset-controller  create Claim www-nginx-1 Pod nginx-1 in StatefulSet nginx success
+  Normal  SuccessfulCreate  102s  statefulset-controller  create Pod nginx-1 in StatefulSet nginx successful
+  Normal  SuccessfulCreate  96s   statefulset-controller  create Claim www-nginx-2 Pod nginx-2 in StatefulSet nginx success
+  Normal  SuccessfulCreate  96s   statefulset-controller  create Pod nginx-2 in StatefulSet nginx successful
+
 ```
 
 &nbsp;
@@ -175,6 +216,10 @@ Para verificar se os `Pods` foram criados, podemos utilizar o comando:
 
 ```bash
 kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+nginx-0   1/1     Running   0          24s
+nginx-1   1/1     Running   0          14s
+nginx-2   1/1     Running   0          8s
 ```
 
 &nbsp;
@@ -211,6 +256,7 @@ Para verificar se o `Headless Service` foi criado, podemos utilizar o comando:
 
 ```bash
 kubectl get service
+
 ```
 
 &nbsp;
