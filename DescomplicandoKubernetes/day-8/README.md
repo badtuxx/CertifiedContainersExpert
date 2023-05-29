@@ -35,7 +35,7 @@ Um Secret é um objeto que contém um pequeno volume de informações sensíveis
 
 Os Secrets são armazenados no Etcd, o armazenamento de dados distribuído do Kubernetes. Por padrão, eles são armazenados sem criptografia, embora o Etcd suporte criptografia para proteger os dados armazenados nele. Além disso, o acesso aos Secrets é restrito por meio de Role-Based Access Control (RBAC), o que permite controlar quais usuários e Pods podem acessar quais Secrets.
 
-Os Secrets podem ser montados em Pods como arquivos em volumes ou podem ser usados para preencher variáveis de ambiente para um container dentro de um Pod. Quando um Secret é atualizado, o Kubernetes atualiza automaticamente os volumes montados ou as variáveis de ambiente que se referem a ele.
+Os Secrets podem ser montados em Pods como arquivos em volumes ou podem ser usados para preencher variáveis de ambiente para um container dentro de um Pod. Quando um Secret é atualizado, o Kubernetes não atualiza automaticamente os volumes montados ou as variáveis de ambiente que se referem a ele.
 
 &nbsp;
 
@@ -47,7 +47,7 @@ Existem vários tipos de Secrets que você pode usar, dependendo de suas necessi
 
 - **kubernetes.io/service-account-token** - são usados para armazenar tokens de acesso de conta de serviço. Esses tokens são usados para autenticar Pods com o Kubernetes API. Eles são montados automaticamente em Pods que usam contas de serviço.
 
-- **kubernetes.io/dockercfg** e **kubernetes.io/dockerconfigjson** - são usados para armazenar credenciais de registro do Docker. Eles são usados para autenticar Pods com um registro do Docker. Eles são montados automaticamente em Pods que usam imagens de container privadas.
+- **kubernetes.io/dockercfg** e **kubernetes.io/dockerconfigjson** - são usados para armazenar credenciais de registro do Docker. Eles são usados para autenticar Pods com um registro do Docker. Eles são montados em Pods que usam imagens de container privadas.
 
 - **kubernetes.io/tls**, **kubernetes.io/ssh-auth** e **kubernetes.io/basic-auth** - são usados para armazenar certificados TLS, chaves SSH e credenciais de autenticação básica, respectivamente. Eles são usados para autenticar Pods com outros serviços.
 
