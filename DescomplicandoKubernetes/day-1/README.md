@@ -867,7 +867,7 @@ Note que o k8s nos disponibiliza algumas abreviações de seus recursos. Com o t
 
 ```
 kubectl delete -f pod-template.yaml
-kubectl delete service nginx
+kubectl delete service meu-nginx
 ```
 
 Liste novamente os recursos para ver se os mesmos ainda estão presentes.
