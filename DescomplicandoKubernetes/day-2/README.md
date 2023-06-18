@@ -169,8 +169,6 @@ apiVersion: v1 # versão da API do Kubernetes
 kind: Pod # tipo do objeto que estamos criando
 metadata: # metadados do Pod 
   name: giropops # nome do Pod que estamos criando
-labels: # labels do Pod
-  run: giropops # label run com o valor giropops
 spec: # especificação do Pod
   containers: # containers que estão dentro do Pod
   - name: giropops # nome do container
@@ -238,8 +236,6 @@ apiVersion: v1 # versão da API do Kubernetes
 kind: Pod # tipo do objeto que estamos criando
 metadata: # metadados do Pod 
   name: giropops # nome do Pod que estamos criando
-labels: # labels do Pod
-  run: giropops # label run com o valor giropops
 spec: # especificação do Pod
   containers: # containers que estão dentro do Pod
   - name: girus # nome do container
@@ -253,7 +249,7 @@ spec: # especificação do Pod
     - "1800"
 ```
 
-Com o manifesto acima, estamos criando um Pod com dois containers, um container chamado girus com a imagem nginx e outro container chamado strigus com a imagem alpine. Um coisa importante de lembrar é que o container do Alpine está sendo criado com o comando `sleep 1800` para que o container não pare de rodar, diferente do container do Nginx que possui um processo principal que fica sendo executado em primeiro plano, fazendo com que o container não pare de rodar.
+Com o manifesto acima, estamos criando um Pod com dois containers, um container chamado girus com a imagem nginx e outro container chamado strigus com a imagem alpine. Uma coisa importante de lembrar é que o container do Alpine está sendo criado com o comando `sleep 1800` para que o container não pare de rodar, diferente do container do Nginx que possui um processo principal que fica sendo executado em primeiro plano, fazendo com que o container não pare de rodar.
 
 O Alpine é uma distribuição Linux que é muito leve, e não possui um processo principal que fica sendo executado em primeiro plano, por isso, precisamos executar o comando `sleep 1800` para que o container não pare de rodar, adicionando assim um processo principal que fica sendo executado em primeiro plano.
 
@@ -333,8 +329,6 @@ apiVersion: v1 # versão da API do Kubernetes
 kind: Pod # tipo do objeto que estamos criando
 metadata: # metadados do Pod
   name: giropops # nome do Pod que estamos criando
-labels: # labels do Pod
-  run: giropops # label run com o valor giropops
 spec: # especificação do Pod 
   containers: # containers que estão dentro do Pod 
   - name: girus # nome do container 
@@ -458,7 +452,7 @@ kubectl get pods
 Agora vamos para dentro do container.
 
 ```bash
-kubectl exec -it ubuntu -- bash
+kubectl exec giropops -it girus -- bash
 ```
 
 Agora vamos instalar o comando `stress`.
@@ -555,7 +549,7 @@ kubectl describe pod giropops
 Agora vamos para dentro do container.
 
 ```bash
-kubectl exec -it ubuntu -- bash
+kubectl exec giropops -it girus -- bash
 ```
 
 Agora vamos criar um arquivo dentro do diretório `/giropops`.

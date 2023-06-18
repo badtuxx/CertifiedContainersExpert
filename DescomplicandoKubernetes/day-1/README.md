@@ -797,7 +797,7 @@ Não se preocupe por enquanto com o parametro 'apply', nós ainda vamos falar co
 Dispositivos fora do *cluster*, por padrão, não conseguem acessar os *pods* criados, como é comum em outros sistemas de contêineres. Para expor um *pod*, execute o comando a seguir.
 
 ```
-kubectl expose pod nginx
+kubectl expose pod meu-nginx
 ```
 
 Será apresentada a seguinte mensagem de erro:
@@ -867,7 +867,7 @@ Note que o k8s nos disponibiliza algumas abreviações de seus recursos. Com o t
 
 ```
 kubectl delete -f pod-template.yaml
-kubectl delete service nginx
+kubectl delete service meu-nginx
 ```
 
 Liste novamente os recursos para ver se os mesmos ainda estão presentes.
