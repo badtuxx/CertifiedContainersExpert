@@ -191,7 +191,7 @@ O resultado será o seguinte:
 
 ```bash
 NAME                               READY   STATUS    RESTARTS   AGE
-nginx-deployment-78cd4b8fd-r4zk8   1/1     Running   0          5s
+nginx-deployment-78cd4b8fd-r4zk8   3/3     Running   0          5s
 
 ```
 
@@ -204,7 +204,7 @@ nginx-deployment-78cd4b8fd-r4zk8   1/1     Running   0          5s
 Para verificar os Pods que o Deployment está gerenciando nós precisamos executar o seguinte comando:
 
 ```bash
-kubectl get pods -l app=nginx
+kubectl get pods -l app=nginx-deployment
 ```
 
 O resultado será o seguinte:
@@ -225,7 +225,7 @@ Isso acontece porque o seletor do Deployment é **app: nginx** e as labels dos P
 Caso eu queria listar os ReplicaSets que o Deployment está gerenciando eu posso executar o seguinte comando:
 
 ```bash
-kubectl get replicasets -l app=nginx
+kubectl get replicasets -l app=nginx-deployment
 ```
 
 O resultado será o seguinte:
