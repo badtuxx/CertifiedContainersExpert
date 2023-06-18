@@ -118,10 +118,10 @@ Aqui nós estamos definindo o nome do Deployment, que é **nginx-deployment** e 
 
 ```yaml
 spec:
-  replicas: 3
+  replicas: 1
 ```
 
-Aqui nós estamos definindo o número de réplicas que o Deployment irá ter. Nesse caso nós estamos definindo que o Deployment irá ter 3 réplicas.
+Aqui nós estamos definindo o número de réplicas que o Deployment irá ter. Nesse caso nós estamos definindo que o Deployment irá ter 1 réplicas.
 
 &nbsp;
 
